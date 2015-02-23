@@ -936,7 +936,8 @@ void printBoardSimple(int board[120]) {
 }
 
 
-
+//TODO: moveGen does not work correctly - pawns
+//TODO: RECURSION does not work correctly - "max" for negative (non-white) values need to be reexamined
 
 /*RECURSION*/
 int tempBoard[120]; //board being moved
