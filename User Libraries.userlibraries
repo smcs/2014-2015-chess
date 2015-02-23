@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<eclipse-userlibraries version="2">
-    <library name="GridWorld" systemlibrary="false">
-        <archive javadoc="file:./Libraries/GridWorldCode/javadoc/" path="/Libraries/GridWorldCode/gridworld.jar"/>
-    </library>
-    <library name="ObjectDraw 1.1.2" systemlibrary="false">
-        <archive javadoc="http://eventfuljava.cs.williams.edu/library/objectdrawJavadocV1.1.2/" path="/Libraries/objectdrawV1.1.2.jar"/>
-    </library>
-</eclipse-userlibraries>
