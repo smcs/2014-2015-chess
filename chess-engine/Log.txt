@@ -1,0 +1,93 @@
+2014-12-01 7:22am (KST)
+	KnightMoves() function for WHITE has been created. Tested at initial position.
+	kingMoves() also going under test.
+	Added whitespace to printBoard() for better reading
+	TODO: BLACK needs same for knights.
+	TODO: PawnMoves() need to have capture mechanism (diagonal)
+	QueenMoves() will be BishopMoves() + RookMoves()
+
+2014-12-01 2:12pm KST
+	rookMoves (WHITE) tested
+	kingMoves (WHITE) tested
+	knightMoves (WHITE) tested
+	pcsq.h added for future
+	knightMoves (BLACK) added
+	kingMoves (BLACK) 
+	TODO: PawnMoves() need to have capture mechanism (diagonal)
+	TODO: queenMoves() test
+	TODO: final random test
+	rookMoves (BLACK) added
+
+2014-12-01 5:10pm KST
+	bishopMoves (WHITE) added + tested
+	bishopMoves (BLACK) added
+	queenMoves (WHITE) tested
+	pawnMoves (WHITE/BLACK) capture added
+	TODO: pawn capture test
+	TODO: final random test
+	TODO: simplify movegen array adding code (another function)
+
+2014-12-01 5:28 KST
+	PCSQ evaluation: piece part added
+	PCSQ evaluation: square part added  for WHITE
+	TODO: pawn capture test
+	TODO: final random test
+	TODO: simplify movegen array adding code (another function)
+
+2014-12-01 5:40 KST
+	PCSQ evaluation: square part added  for BLACK
+	TODO: pawn capture test
+	TODO: final random test
+	TODO: simplify movegen array adding code (another function)
+	TODO: enpassant, castling
+
+2014-12-01 5:57 KST
+	Tried out some basic makeMove/unmakeMove (no recursion yet)
+	Pawn capture tested (WHITE)
+	TODO: final random test
+	TODO: simplify movegen array adding code (another function)
+	TODO: enpassant, castling
+
+IDEA001: store moves rather than boards
+
+2014-12-13 11:40 am EST
+	delete and remade makeMove/unmakeMove (using IDEA001)
+	created PrintBoardSimple() (8x8 board print, not 10x12)
+	TODO: final random test
+	TODO: simplify movegen array adding code (another function)
+	TODO: enpassant, castling
+
+2014-12-13 12:13 pm EST
+	trying to make negaMax (looks hopeful! ^^ ) 
+	TODO: final random test
+	TODO: simplify movegen array adding code (another function)
+	TODO: enpassant, castling
+	TODO: add PCSQ
+
+2014-12-13 12:29 pm EST
+	add PCSQ from website 
+	TODO: final random test
+	TODO: simplify movegen array adding code (another function)
+	TODO: enpassant, castling
+
+2014-12-13 1:51 pm EST
+	make 'maxScore'
+	TODO: index moves
+	TODO: final random test
+	TODO: simplify movegen array adding code (another function)
+	TODO: enpassant, castling
+
+2014-12-13 2:07 pm EST
+	make timer
+	add 'castling[4]'
+	TODO: index moves
+	TODO: final random test
+	TODO: simplify movegen array adding code (another function)
+	TODO: enpassant, castling
+
+2014-12-22 10:39 pm KST
+	fixed moveGenerator problem (used board[120] instead of tempBoard[120])
+	error detected: pawn capture not done
+	TODO: final random test
+	TODO: simplify movegen array adding code (another function)
+	TODO: enpassant, castling
