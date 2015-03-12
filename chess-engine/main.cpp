@@ -27,7 +27,7 @@ time_t timer;
 void setupBoard(); // initializes the board
 void printBoard(); // prints the current board
 void moveGenerator(int board[120], int color); // generates and stores all possible moves
-void pawnMoves(int position, int color); // generates and stores all possible pawn moves
+void pawnMoves(int board[120], int position, int color); // generates and stores all possible pawn moves
 void knightMoves(int position, int color); // generates and stores all possible knight moves
 void rookMoves(int position, int color); // generates and stores all possible rook moves
 void bishopMoves(int position, int color); // generates and stores all possible bishop moves
@@ -155,7 +155,7 @@ void moveGenerator(int board[120], int color) {
 
 		switch (board[i]) {
 		case wP:
-			pawnMoves(i, WHITE);
+			pawnMoves(board, i, WHITE);
 			break;
 		case wN:
 			knightMoves(i, WHITE);
@@ -173,7 +173,7 @@ void moveGenerator(int board[120], int color) {
 			kingMoves(i, WHITE);
 			break;
 		case bP:
-			pawnMoves(i, BLACK);
+			pawnMoves(board, i, BLACK);
 			break;
 		case bN:
 			knightMoves(i, BLACK);
@@ -200,7 +200,7 @@ void moveGenerator(int board[120], int color) {
 	//queen moves
 	//king moves
 }
-void pawnMoves(int position, int color) {
+void pawnMoves(int board[120], int position, int color) {
 	if (color == WHITE) {
 		if (A2 <= position && position <= H2 && board[position - 20] == EMPTY && board[position - 10] == EMPTY) { //if it did not move yet
 			moveGen[moveCount][0] = position;
@@ -999,7 +999,8 @@ int negaMax(int ply, int startColor) {
 		for (int i = 3; i > 0; i--) {
 			printf("%d to %d, ", currentMoveList[i][0], currentMoveList[i][1]);
 		}
-		printf("Score = %d\n", score);
+		printf("\n");
+		//printf("Score = %d\n", score);
 		return score;
 	}
 
