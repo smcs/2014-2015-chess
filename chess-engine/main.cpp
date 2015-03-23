@@ -28,11 +28,11 @@ void setupBoard(); // initializes the board
 void printBoard(); // prints the current board
 void moveGenerator(int board[120], int color); // generates and stores all possible moves
 void pawnMoves(int board[120], int position, int color); // generates and stores all possible pawn moves
-void knightMoves(int position, int color); // generates and stores all possible knight moves
-void rookMoves(int position, int color); // generates and stores all possible rook moves
-void bishopMoves(int position, int color); // generates and stores all possible bishop moves
-void queenMoves(int position, int color); // generates and stores all possible queen moves
-void kingMoves(int position, int color); // generates and stores all possible king moves
+void knightMoves(int board[120], int position, int color); // generates and stores all possible knight moves
+void rookMoves(int board[120], int position, int color); // generates and stores all possible rook moves
+void bishopMoves(int board[120], int position, int color); // generates and stores all possible bishop moves
+void queenMoves(int board[120], int position, int color); // generates and stores all possible queen moves
+void kingMoves(int board[120], int position, int color); // generates and stores all possible king moves
 int boardEvaluation(int board[120]); //evaluates current board situation using PCSQ tables and existing pieces
 int determineColor(int piece); //returns the color of the piece (wK -> WHITE, bK -> BLACK, NOCOLOR)
 bool legalSquare(int position); //asks if the position number is one on the 8x8 chessboard
@@ -158,37 +158,37 @@ void moveGenerator(int board[120], int color) {
 			pawnMoves(board, i, WHITE);
 			break;
 		case wN:
-			knightMoves(i, WHITE);
+			knightMoves(board, i, WHITE);
 			break;
 		case wB:
-			bishopMoves(i, WHITE);
+			bishopMoves(board, i, WHITE);
 			break;
 		case wR:
-			rookMoves(i, WHITE);
+			rookMoves(board, i, WHITE);
 			break;
 		case wQ:
-			queenMoves(i, WHITE);
+			queenMoves(board, i, WHITE);
 			break;
 		case wK:
-			kingMoves(i, WHITE);
+			kingMoves(board, i, WHITE);
 			break;
 		case bP:
 			pawnMoves(board, i, BLACK);
 			break;
 		case bN:
-			knightMoves(i, BLACK);
+			knightMoves(board, i, BLACK);
 			break;
 		case bB:
-			bishopMoves(i, BLACK);
+			bishopMoves(board, i, BLACK);
 			break;
 		case bR:
-			rookMoves(i, BLACK);
+			rookMoves(board, i, BLACK);
 			break;
 		case bQ:
-			queenMoves(i, BLACK);
+			queenMoves(board, i, BLACK);
 			break;
 		case bK:
-			kingMoves(i, BLACK);
+			kingMoves(board, i, BLACK);
 			break;
 		}
 	}
@@ -246,7 +246,7 @@ void pawnMoves(int board[120], int position, int color) {
 		}
 	}
 }
-void knightMoves(int position, int color) {
+void knightMoves(int board[120], int position, int color) {
 	// _ 8 _ 1 _
 	// 7 _ _ _ 2
 	// _ _ N _ _
@@ -338,7 +338,7 @@ void knightMoves(int position, int color) {
 		}
 	}
 }
-void rookMoves(int position, int color) {
+void rookMoves(int board[120], int position, int color) {
 	if (color == WHITE) {
 		//moving down
 		for (int i = 1; i < 8; i++) {
@@ -512,7 +512,7 @@ void rookMoves(int position, int color) {
 		}
 	}
 }
-void bishopMoves(int position, int color) {
+void bishopMoves(int board[120], int position, int color) {
 	if (color == WHITE) {
 		// 2 _ _ _ 1
 		// _ 2 _ 1 _
@@ -696,12 +696,12 @@ void bishopMoves(int position, int color) {
 		}
 	}
 }
-void queenMoves(int position, int color) {
+void queenMoves(int board[120], int position, int color) {
 	
-	rookMoves(position, color);
-	bishopMoves(position, color);
+	rookMoves(board, position, color);
+	bishopMoves(board, position, color);
 }
-void kingMoves(int position, int color) {
+void kingMoves(int board[120], int position, int color) {
 	if (color == WHITE) {
 		//   6 7 8
 		//   5 K 1
