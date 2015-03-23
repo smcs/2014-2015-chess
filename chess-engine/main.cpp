@@ -2,6 +2,7 @@
 /*DEFINITION*/
 #define MAX_MOVES 269
 #define MAX_PLY 10
+#define ENGINE_DEPTH 3
 
 #define PAWN_VALUE 100
 #define KNIGHT_VALUE 300
@@ -992,14 +993,17 @@ int negaMax(int ply, int startColor) {
 	int tempScore;
 
 	//printf("Negamax called - Ply: %d\n", ply);
-	printBoard(tempBoard);
+	//printBoard(tempBoard);
 
 	if (ply == 0) {
 		score = boardEvaluation(tempBoard);
+		
+		/*
 		for (int i = 3; i > 0; i--) {
 			printf("%d to %d, ", currentMoveList[i][0], currentMoveList[i][1]);
 		}
-		printf("\n");
+		*/
+		//printf("\n");
 		//printf("Score = %d\n", score);
 		return score;
 	}
@@ -1043,6 +1047,7 @@ void main() {
 	int startTime = timer;
 
 	setupBoard();
+	/*
 	//simpler setup for test
 	for (int i = 1; i < 9; i++) {
 		board[20 + i] = EMPTY;
@@ -1052,6 +1057,8 @@ void main() {
 	}
 	board[E2] = wP;
 	board[D7] = bP;
+	*/
+
 
 //	moveGenerator(board, WHITE);
 //	for (int i = 0; i < moveCount; i++) {
@@ -1062,7 +1069,7 @@ void main() {
 		tempBoard[i] = board[i];
 	}
 
-	negaMax(3, WHITE);
+	negaMax(ENGINE_DEPTH, WHITE);
 	
 	printf("Max Score: %d\n", maxScore);
 
