@@ -1065,6 +1065,7 @@ int negaMax(int ply, int startColor) {
 		moveGenList[ply][i][1] = moveGen[i][1];
 
 		printf("%d to %d", moveGen[i][0], moveGen[i][1]);
+		printf(" (%c to %c)", numberToPiece(tempBoard[moveGen[i][0]]), numberToPiece(tempBoard[moveGen[i][1]]));
 		printf("\n");
 	}
 	printf("\n");
