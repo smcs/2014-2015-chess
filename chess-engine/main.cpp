@@ -41,7 +41,7 @@ int reverseBoard(int position); //used for PCSQ evaluation
 void makeMove(int move[2], int currentPly);
 void unmakeMove(int currentPly);
 void printBoardSimple(int board[120]);
-
+char numberToPiece(int number); //function that returns a symbol of piece the parameter number is
 
 /*CODE*/
 void setupBoard() {
@@ -798,7 +798,8 @@ void kingMoves(int board[120], int position, int color) {
 }
 void printMoveList() {
 	for (int i = 0; i < moveCount; i++) {
-		printf("%d to %d\n", moveGen[i][0], moveGen[i][1]);
+		printf("%d to %d", moveGen[i][0], moveGen[i][1]);
+		printf("\n");
 	}
 }
 int determineColor(int piece) {
@@ -935,7 +936,54 @@ void printBoardSimple(int board[120]) {
 		printf("\n");
 	}
 }
-
+char numberToPiece(int number) {
+	char c;
+	switch (number) {
+	case wP:
+		c = 'P';
+		break;
+	case wN:
+		c = 'N';
+		break;
+	case wB:
+		c = 'B';
+		break;
+	case wR:
+		c = 'R';
+		break;
+	case wQ:
+		c = 'Q';
+		break;
+	case wK:
+		c = 'K';
+		break;
+	case bP:
+		c = 'p';
+		break;
+	case bN:
+		c = 'n';
+		break;
+	case bB:
+		c = 'b';
+		break;
+	case bR:
+		c = 'r';
+		break;
+	case bQ:
+		c = 'q';
+		break;
+	case bK:
+		c = 'k';
+		break;
+	case EMPTY:
+		c = '_';
+		break;
+	case ERROR:
+		c = 'X';
+		break;
+	}
+	return c;
+}
 
 //TODO: moveGen does not work correctly - pawns
 //TODO: RECURSION does not work correctly - "max" for negative (non-white) values need to be reexamined
@@ -1016,7 +1064,8 @@ int negaMax(int ply, int startColor) {
 		moveGenList[ply][i][0] = moveGen[i][0];
 		moveGenList[ply][i][1] = moveGen[i][1];
 
-		printf("%d to %d\n", moveGen[i][0], moveGen[i][1]);
+		printf("%d to %d", moveGen[i][0], moveGen[i][1]);
+		printf("\n");
 	}
 	printf("\n");
 	moveCountList[ply] = moveCount;
