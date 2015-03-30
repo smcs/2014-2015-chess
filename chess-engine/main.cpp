@@ -2,7 +2,7 @@
 /*DEFINITION*/
 #define MAX_MOVES 269
 #define MAX_PLY 10
-#define ENGINE_DEPTH 4
+#define ENGINE_DEPTH 3
 
 #define PAWN_VALUE 100
 #define KNIGHT_VALUE 300
@@ -1125,7 +1125,7 @@ void main() {
 	negaMax(ENGINE_DEPTH, WHITE);
 	
 	printf("Max Score: %d\n", maxScore);
-	printf("%d Moves Detected\n", totalMoveCount);
+	printf("%d Nondistinct Positions Detected\n", totalMoveCount);
 	time(&timer);
 	printf("Calculation done in %d seconds\n", timer - startTime);
 
