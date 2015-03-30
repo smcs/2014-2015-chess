@@ -2,7 +2,7 @@
 /*DEFINITION*/
 #define MAX_MOVES 269
 #define MAX_PLY 10
-#define ENGINE_DEPTH 3
+#define ENGINE_DEPTH 4
 
 #define PAWN_VALUE 100
 #define KNIGHT_VALUE 300
@@ -23,6 +23,7 @@ int moveGen[MAX_MOVES][2]; // first column: starting square, second column: endi
 int moveCount = 0;
 bool castling[4] = { true, }; //check if castling is available
 time_t timer;
+int totalMoveCount = 0;
 
 /*FUNCTIONS*/
 void setupBoard(); // initializes the board
@@ -1046,6 +1047,7 @@ int negaMax(int ply, int startColor) {
 	if (ply == 0) {
 		score = boardEvaluation(tempBoard);
 		
+		totalMoveCount++;
 		/*
 		for (int i = 3; i > 0; i--) {
 			printf("%d to %d, ", currentMoveList[i][0], currentMoveList[i][1]);
@@ -1123,7 +1125,7 @@ void main() {
 	negaMax(ENGINE_DEPTH, WHITE);
 	
 	printf("Max Score: %d\n", maxScore);
-
+	printf("%d Moves Detected\n", totalMoveCount);
 	time(&timer);
 	printf("Calculation done in %d seconds\n", timer - startTime);
 
