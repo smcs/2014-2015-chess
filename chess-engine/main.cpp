@@ -24,6 +24,12 @@ int moveCount = 0;
 bool castling[4] = { true, }; //check if castling is available
 time_t timer;
 int totalMoveCount = 0;
+bool whiteKingMoved = false;
+bool blackKingMoved = false;
+bool whiteKingsideRookMoved = false;
+bool whiteQueensideRookMoved = false;
+bool blackKingsideRookMoved = false;
+bool blackQueensideRookMoved = false;
 
 /*FUNCTIONS*/
 void setupBoard(); // initializes the board
@@ -35,6 +41,7 @@ void rookMoves(int board[120], int position, int color); // generates and stores
 void bishopMoves(int board[120], int position, int color); // generates and stores all possible bishop moves
 void queenMoves(int board[120], int position, int color); // generates and stores all possible queen moves
 void kingMoves(int board[120], int position, int color); // generates and stores all possible king moves
+void kingCastling(int board[120], int position, int color); //generates and stores all possible castling moves
 int boardEvaluation(int board[120]); //evaluates current board situation using PCSQ tables and existing pieces
 int determineColor(int piece); //returns the color of the piece (wK -> WHITE, bK -> BLACK, NOCOLOR)
 bool legalSquare(int position); //asks if the position number is one on the 8x8 chessboard
@@ -43,6 +50,13 @@ void makeMove(int move[2], int currentPly);
 void unmakeMove(int currentPly);
 void printBoardSimple(int board[120]);
 char numberToPiece(int number); //function that returns a symbol of piece the parameter number is
+bool whiteKingsideCastling(int board[120]); //function that returns whether or not white can perform kingside castling 
+bool whiteQueensideCastling(int board[120]); //function that returns whether or not white can perform queenside castling
+bool blackKingsideCastling(int board[120]); //function that returns whether or not black can perform kingside castling 
+bool blackQueensideCastling(int board[120]); //function that returns whether or not black can perform queenside castling
+void kingCastling(int board[120], int position, int color); //generates and stores all possible castling moves
+
+
 
 /*CODE*/
 void setupBoard() {
@@ -173,6 +187,7 @@ void moveGenerator(int board[120], int color) {
 			break;
 		case wK:
 			kingMoves(board, i, WHITE);
+			kingCastling(board, i, WHITE);
 			break;
 		case bP:
 			pawnMoves(board, i, BLACK);
@@ -191,6 +206,7 @@ void moveGenerator(int board[120], int color) {
 			break;
 		case bK:
 			kingMoves(board, i, BLACK);
+			kingCastling(board, i, BLACK);
 			break;
 		}
 	}
@@ -797,6 +813,95 @@ void kingMoves(int board[120], int position, int color) {
 		}
 	}
 }
+bool whiteKingsideCastling(int board[120]) {
+	if (whiteKingMoved == true) { // if the king has moved, castling cannot happen
+		return false;
+	}
+	if (whiteKingsideRookMoved == true) { // if the kingside rook has moved, kingside castling cannot happen
+		return false;
+	}
+
+	if (board[F1] != EMPTY || board[G1] != EMPTY) { // if space between king and rook is occupied, castling cannot happen
+		return false;
+	}
+
+	//TODO: if king gets itself on check during castling, castling cannot happen
+	return true;
+}
+bool whiteQueensideCastling(int board[120]) {
+	if (whiteKingMoved == true) { // if the king has moved, castling cannot happen
+		return false;
+	}
+	if (whiteQueensideRookMoved == true) { // if the queenside rook has moved, queenside castling cannot happen
+		return false;
+	}
+
+	if (board[B1] != EMPTY || board[C1] != EMPTY || board[D1] != EMPTY) { // if space between king and rook is occupied, castling cannot happen
+		return false;
+	}
+
+	//TODO: if king gets itself on check during castling, castling cannot happen
+	return true;
+}
+bool blackKingsideCastling(int board[120]) {
+	if (blackKingMoved == true) { // if the king has moved, castling cannot happen
+		return false;
+	}
+	if (blackKingsideRookMoved == true) { // if the kingside rook has moved, kingside castling cannot happen
+		return false;
+	}
+
+	if (board[F8] != EMPTY || board[G8] != EMPTY) { // if space between king and rook is occupied, castling cannot happen
+		return false;
+	}
+
+	//TODO: if king gets itself on check during castling, castling cannot happen
+	return true;
+}
+bool blackQueensideCastling(int board[120]) {
+	if (blackKingMoved == true) { // if the king has moved, castling cannot happen
+		return false;
+	}
+	if (blackQueensideRookMoved == true) { // if the queenside rook has moved, queenside castling cannot happen
+		return false;
+	}
+
+	if (board[B8] != EMPTY || board[C8] != EMPTY || board[D8] != EMPTY) { // if space between king and rook is occupied, castling cannot happen
+		return false;
+	}
+
+	//TODO: if king gets itself on check during castling, castling cannot happen
+	return true;
+}
+
+//TODO: castling moves two pieces, so a different method of storing may have to be used
+void kingCastling(int board[120], int position, int color) {
+	if (color == WHITE) {
+		if (whiteKingsideCastling(board) == true) {
+			moveGen[moveCount][0] = E1;
+			moveGen[moveCount][1] = G1;
+			moveCount++; 
+		}
+		if (whiteQueensideCastling(board) == true) {
+			moveGen[moveCount][0] = E1;
+			moveGen[moveCount][1] = C1;
+			moveCount++;
+		}
+	}
+	if (color == BLACK) {
+		if (blackKingsideCastling(board) == true) {
+			moveGen[moveCount][0] = E8;
+			moveGen[moveCount][1] = G8;
+			moveCount++;
+		}
+		if (blackQueensideCastling(board) == true) {
+			moveGen[moveCount][0] = E8;
+			moveGen[moveCount][1] = C8;
+			moveCount++;
+		}
+	}
+}
+
 void printMoveList() {
 	for (int i = 0; i < moveCount; i++) {
 		printf("%d to %d", moveGen[i][0], moveGen[i][1]);
