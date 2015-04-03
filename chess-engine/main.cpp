@@ -1091,7 +1091,6 @@ char numberToPiece(int number) {
 	return c;
 }
 
-//TODO: moveGen does not work correctly - pawns
 //TODO: RECURSION does not work correctly - "max" for negative (non-white) values need to be reexamined
 
 /*RECURSION*/
