@@ -19,7 +19,7 @@
 
 /*GLOBAL VARIABLES*/
 int board[120]; // 10x12
-int moveGen[MAX_MOVES][2]; // first column: starting square, second column: ending square
+int moveGen[MAX_MOVES][3]; // first column: starting square, second column: ending square
 int moveCount = 0;
 bool castling[4] = { true, }; //check if castling is available
 time_t timer;
@@ -30,6 +30,9 @@ bool whiteKingsideRookMoved = false;
 bool whiteQueensideRookMoved = false;
 bool blackKingsideRookMoved = false;
 bool blackQueensideRookMoved = false;
+bool enPassantPossible = false; //this is true if the previous move was a two-rank move by pawn
+int enPassantPosition = 0; //this is where the en Passant position currently is
+
 
 /*FUNCTIONS*/
 void setupBoard(); // initializes the board
@@ -240,6 +243,17 @@ void pawnMoves(int board[120], int position, int color) {
 			moveGen[moveCount][1] = position - 10 + 1;
 			moveCount++;
 		}
+
+		//enPassant capture
+		if (enPassantPossible == true) {
+			if (enPassantPosition == position - 1 || enPassantPosition == position + 1) {
+				moveGen[moveCount][0] = position;
+				moveGen[moveCount][1] = enPassantPosition-10;
+				moveCount++;
+				//TODO: make computer able to detect that this move is enPassant
+			}
+		}
+
 	}
 	else if (color == BLACK) {
 		if (A7 <= position && position <= H7 && board[position + 20] == EMPTY && board[position + 10] == EMPTY) { //if it did not move yet
@@ -261,6 +275,14 @@ void pawnMoves(int board[120], int position, int color) {
 			moveGen[moveCount][0] = position;
 			moveGen[moveCount][1] = position + 10 + 1;
 			moveCount++;
+		}
+		if (enPassantPossible == true) {
+			if (enPassantPosition == position - 1 || enPassantPosition == position + 1) {
+				moveGen[moveCount][0] = position;
+				moveGen[moveCount][1] = enPassantPosition + 10;
+				moveCount++;
+				//TODO: make computer able to detect that this move is enPassant
+			}
 		}
 	}
 }
@@ -880,7 +902,7 @@ void kingCastling(int board[120], int position, int color) {
 		if (whiteKingsideCastling(board) == true) {
 			moveGen[moveCount][0] = E1;
 			moveGen[moveCount][1] = G1;
-			moveCount++; 
+			moveCount++;
 		}
 		if (whiteQueensideCastling(board) == true) {
 			moveGen[moveCount][0] = E1;
