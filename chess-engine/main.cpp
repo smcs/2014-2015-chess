@@ -19,7 +19,7 @@
 
 /*GLOBAL VARIABLES*/
 int board[120]; // 10x12
-int moveGen[MAX_MOVES][3]; // first column: starting square, second column: ending square
+int moveGen[MAX_MOVES][3]; // first column: starting square, second column: ending square, third column: move type
 int moveCount = 0;
 bool castling[4] = { true, }; //check if castling is available
 time_t timer;
@@ -32,7 +32,6 @@ bool blackKingsideRookMoved = false;
 bool blackQueensideRookMoved = false;
 bool enPassantPossible = false; //this is true if the previous move was a two-rank move by pawn
 int enPassantPosition = 0; //this is where the en Passant position currently is
-
 
 /*FUNCTIONS*/
 void setupBoard(); // initializes the board
@@ -158,6 +157,7 @@ void moveGenerator(int board[120], int color) {
 	for (int i = 0; i < moveCount; i++) {
 		moveGen[i][0] = 0;
 		moveGen[i][1] = 0;
+		moveGen[i][2] = 0;
 	}
 	moveCount = 0;
 
@@ -250,7 +250,6 @@ void pawnMoves(int board[120], int position, int color) {
 				moveGen[moveCount][0] = position;
 				moveGen[moveCount][1] = enPassantPosition-10;
 				moveCount++;
-				//TODO: make computer able to detect that this move is enPassant
 			}
 		}
 
@@ -281,7 +280,6 @@ void pawnMoves(int board[120], int position, int color) {
 				moveGen[moveCount][0] = position;
 				moveGen[moveCount][1] = enPassantPosition + 10;
 				moveCount++;
-				//TODO: make computer able to detect that this move is enPassant
 			}
 		}
 	}
