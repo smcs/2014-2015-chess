@@ -483,15 +483,11 @@ void bishopMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position + (-10 + 1) * i]) == BLACK) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (-10 + 1) * i;
-				moveCount++;
+				addMove(position, position + (-10 + 1) * i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (-10 + 1) * i;
-				moveCount++;
+				addMove(position, position + (-10 + 1) * i, NORMAL);
 			}
 		}
 
@@ -504,15 +500,11 @@ void bishopMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position + (-10 - 1) * i]) == BLACK) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (-10 - 1) * i;
-				moveCount++;
+				addMove(position, position + (-10 - 1) * i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (-10 - 1) * i;
-				moveCount++;
+				addMove(position, position + (-10 - 1) * i, NORMAL);
 			}
 		}
 
@@ -525,15 +517,11 @@ void bishopMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position + (10 - 1) * i]) == BLACK) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (10 - 1) * i;
-				moveCount++;
+				addMove(position, position + (10 - 1) * i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (10 - 1) * i;
-				moveCount++;
+				addMove(position, position + (10 - 1) * i, NORMAL);
 			}
 		}
 
@@ -546,15 +534,11 @@ void bishopMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position + (10 + 1) * i]) == BLACK) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (10 + 1) * i;
-				moveCount++;
+				addMove(position, position + (10 + 1) * i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (10 + 1) * i;
-				moveCount++;
+				addMove(position, position + (10 + 1) * i, NORMAL);
 			}
 		}
 	}
@@ -574,15 +558,11 @@ void bishopMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position + (-10 + 1) * i]) == WHITE) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (-10 + 1) * i;
-				moveCount++;
+				addMove(position, position + (-10 + 1) * i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (-10 + 1) * i;
-				moveCount++;
+				addMove(position, position + (-10 + 1) * i, NORMAL);
 			}
 		}
 
@@ -595,15 +575,11 @@ void bishopMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position + (-10 - 1) * i]) == WHITE) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (-10 - 1) * i;
-				moveCount++;
+				addMove(position, position + (-10 - 1) * i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (-10 - 1) * i;
-				moveCount++;
+				addMove(position, position + (-10 - 1) * i, NORMAL);
 			}
 		}
 
@@ -616,15 +592,11 @@ void bishopMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position + (10 - 1) * i]) == WHITE) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (10 - 1) * i;
-				moveCount++;
+				addMove(position, position + (10 - 1) * i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (10 - 1) * i;
-				moveCount++;
+				addMove(position, position + (10 - 1) * i, NORMAL);
 			}
 		}
 
@@ -637,15 +609,11 @@ void bishopMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position + (10 + 1) * i]) == WHITE) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (10 + 1) * i;
-				moveCount++;
+				addMove(position, position + (10 + 1) * i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + (10 + 1) * i;
-				moveCount++;
+				addMove(position, position + (10 + 1) * i, NORMAL);
 			}
 		}
 	}
