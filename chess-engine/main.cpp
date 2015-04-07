@@ -748,26 +748,18 @@ bool blackQueensideCastling(int board[120]) {
 void kingCastling(int board[120], int position, int color) {
 	if (color == WHITE) {
 		if (whiteKingsideCastling(board) == true) {
-			moveGen[moveCount][0] = E1;
-			moveGen[moveCount][1] = G1;
-			moveCount++;
+			addMove(E1, G1, CASTLING);
 		}
 		if (whiteQueensideCastling(board) == true) {
-			moveGen[moveCount][0] = E1;
-			moveGen[moveCount][1] = C1;
-			moveCount++;
+			addMove(E1, C1, CASTLING);
 		}
 	}
 	if (color == BLACK) {
 		if (blackKingsideCastling(board) == true) {
-			moveGen[moveCount][0] = E8;
-			moveGen[moveCount][1] = G8;
-			moveCount++;
+			addMove(E8, G8, CASTLING);
 		}
 		if (blackQueensideCastling(board) == true) {
-			moveGen[moveCount][0] = E8;
-			moveGen[moveCount][1] = C8;
-			moveCount++;
+			addMove(E8, C8, CASTLING);
 		}
 	}
 }
