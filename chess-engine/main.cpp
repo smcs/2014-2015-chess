@@ -335,15 +335,11 @@ void rookMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position + 10 * i]) == BLACK) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + 10 * i;
-				moveCount++;
+				addMove(position, position + 10 * i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + 10 * i;
-				moveCount++;
+				addMove(position, position + 10 * i, NORMAL);
 			}
 		}
 
@@ -356,15 +352,11 @@ void rookMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position - 10 * i]) == BLACK) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position - 10 * i;
-				moveCount++;
+				addMove(position, position - 10 * i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position - 10 * i;
-				moveCount++;
+				addMove(position, position - 10 * i, NORMAL);
 			}
 		}
 
@@ -377,15 +369,11 @@ void rookMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position + i]) == BLACK) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + i;
-				moveCount++;
+				addMove(position, position + i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + i;
-				moveCount++;
+				addMove(position, position + i, NORMAL);
 			}
 		}
 
@@ -398,15 +386,11 @@ void rookMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position - i]) == BLACK) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position - i;
-				moveCount++;
+				addMove(position, position - i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position - i;
-				moveCount++;
+				addMove(position, position - i, NORMAL);
 			}
 		}
 	}
@@ -422,15 +406,11 @@ void rookMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position + 10 * i]) == WHITE) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + 10 * i;
-				moveCount++;
+				addMove(position, position + 10 * i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + 10 * i;
-				moveCount++;
+				addMove(position, position + 10 * i, NORMAL);
 			}
 		}
 
@@ -443,15 +423,11 @@ void rookMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position - 10 * i]) == WHITE) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position - 10 * i;
-				moveCount++;
+				addMove(position, position - 10 * i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position - 10 * i;
-				moveCount++;
+				addMove(position, position - 10 * i, NORMAL);
 			}
 		}
 
@@ -464,15 +440,11 @@ void rookMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position + i]) == WHITE) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + i;
-				moveCount++;
+				addMove(position, position + i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position + i;
-				moveCount++;
+				addMove(position, position + i, NORMAL);
 			}
 		}
 
@@ -485,15 +457,11 @@ void rookMoves(int board[120], int position, int color) {
 				break;
 			}
 			else if (determineColor(board[position - i]) == WHITE) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position - i;
-				moveCount++;
+				addMove(position, position - i, NORMAL);
 				break;
 			}
 			else { //board is unoccupied
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = position - i;
-				moveCount++;
+				addMove(position, position - i, NORMAL);
 			}
 		}
 	}
