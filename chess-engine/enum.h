@@ -34,3 +34,8 @@ enum colors {
 	NOCOLOR
 };
 
+enum specialMoveType {
+	NORMAL,
+	CASTLING,
+	ENPASSANT
+};
