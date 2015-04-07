@@ -2,7 +2,7 @@
 /*DEFINITION*/
 #define MAX_MOVES 269
 #define MAX_PLY 10
-#define ENGINE_DEPTH 3
+#define ENGINE_DEPTH 1
 
 #define PAWN_VALUE 100
 #define KNIGHT_VALUE 300
@@ -35,7 +35,7 @@ int enPassantPosition = 0; //this is where the en Passant position currently is
 
 /*FUNCTIONS*/
 void setupBoard(); // initializes the board
-void printBoard(); // prints the current board
+void printBoard(int board[120]); // prints the current board
 void moveGenerator(int board[120], int color); // generates and stores all possible moves
 void pawnMoves(int board[120], int position, int color); // generates and stores all possible pawn moves
 void knightMoves(int board[120], int position, int color); // generates and stores all possible knight moves
@@ -1083,19 +1083,28 @@ void main() {
 	time(&timer);
 	int startTime = timer;
 
-	setupBoard();
-	/*
+	//setupBoard();
+	
 	//simpler setup for test
-	for (int i = 1; i < 9; i++) {
-		board[20 + i] = EMPTY;
-		board[30 + i] = EMPTY;
-		board[80 + i] = EMPTY;
-		board[90 + i] = EMPTY;
-	}
-	board[E2] = wP;
-	board[D7] = bP;
-	*/
 
+	for (int i = 0; i < 120; i++) {
+		board[i] = ERROR;
+	}
+	for (int i=2; i<10; i++) {
+		for (int j = 1; j < 9; j++) {
+			board[i*10 + j] = EMPTY;
+		}
+	}
+	board[E1] = wK;
+	board[A1] = wR;
+	board[G1] = wN;
+	board[H1] = wR;
+	board[E8] = bK;
+	board[A8] = bR;
+	board[G8] = bN;
+	board[H8] = bR;
+
+	printBoard(board);
 
 //	moveGenerator(board, WHITE);
 //	for (int i = 0; i < moveCount; i++) {
