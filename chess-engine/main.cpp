@@ -57,7 +57,7 @@ bool whiteQueensideCastling(int board[120]); //function that returns whether or 
 bool blackKingsideCastling(int board[120]); //function that returns whether or not black can perform kingside castling 
 bool blackQueensideCastling(int board[120]); //function that returns whether or not black can perform queenside castling
 void kingCastling(int board[120], int position, int color); //generates and stores all possible castling moves
-
+void addMove(int initPosition, int finalPosition, int moveType); // function that is called when a move should be added to moveGen
 
 
 /*CODE*/
@@ -1110,6 +1110,14 @@ char numberToPiece(int number) {
 	}
 	return c;
 }
+
+void addMove(int initPosition, int finalPosition, int moveType) {
+	moveGen[moveCount][0] = initPosition;
+	moveGen[moveCount][1] = finalPosition;
+	moveGen[moveCount][2] = moveType;
+	moveCount++;
+}
+
 
 //TODO: RECURSION does not work correctly - "max" for negative (non-white) values need to be reexamined
 
