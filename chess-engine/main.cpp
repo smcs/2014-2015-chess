@@ -629,45 +629,28 @@ void kingMoves(int board[120], int position, int color) {
 		//   5 K 1
   		//   4 3 2
 		if (determineColor(board[position + 1]) != WHITE && legalSquare(position + 1) == true) { // position 1
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position + 1;
-			moveCount++;
+			addMove(position, position + 1, NORMAL);
 		}
 		if (determineColor(board[position + 10 + 1]) != WHITE && legalSquare(position + 10 + 1) == true) { // position 2
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position + 10 + 1;
-			moveCount++;
+			addMove(position, position + 10 + 1, NORMAL);
 		}
 		if (determineColor(board[position + 10]) != WHITE && legalSquare(position + 10) == true) { // position 3
-			
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position + 10;
-			moveCount++;
+			addMove(position, position + 10, NORMAL);
 		}
 		if (determineColor(board[position + 10 - 1]) != WHITE && legalSquare(position + 10 - 1) == true) { // position 4
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position + 10 - 1;
-			moveCount++;
+			addMove(position, position + 10 - 1, NORMAL);
 		}
 		if (determineColor(board[position - 1]) != WHITE && legalSquare(position - 1) == true) { // position 5
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position - 1;
-			moveCount++;
+			addMove(position, position - 1, NORMAL);
 		}
 		if (determineColor(board[position - 10 - 1]) != WHITE && legalSquare(position - 10 - 1) == true) { // position 6
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position - 10 - 1;
-			moveCount++;
+			addMove(position, position - 10 - 1, NORMAL);
 		}
 		if (determineColor(board[position - 10]) != WHITE && legalSquare(position - 10) == true) { // position 7
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position - 10;
-			moveCount++;
+			addMove(position, position - 10, NORMAL);
 		}
 		if (determineColor(board[position - 10 + 1]) != WHITE && legalSquare(position - 10 + 1) == true) { // position 8
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position - 10 + 1;
-			moveCount++;
+			addMove(position, position - 10 + 1, NORMAL);
 		}
 	}
 	if (color == BLACK) {
@@ -675,45 +658,28 @@ void kingMoves(int board[120], int position, int color) {
 		//   5 K 1
 		//   4 3 2
 		if (determineColor(board[position + 1]) != BLACK && legalSquare(position + 1) == true) { // position 1
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position + 1;
-			moveCount++;
+			addMove(position, position + 1, NORMAL);
 		}
 		if (determineColor(board[position + 10 + 1]) != BLACK && legalSquare(position + 10 + 1) == true) { // position 2
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position + 10 + 1;
-			moveCount++;
+			addMove(position, position + 10 + 1, NORMAL);
 		}
 		if (determineColor(board[position + 10]) != BLACK && legalSquare(position + 10) == true) { // position 3
-
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position + 10;
-			moveCount++;
+			addMove(position, position + 10, NORMAL);
 		}
 		if (determineColor(board[position + 10 - 1]) != BLACK && legalSquare(position + 10 - 1) == true) { // position 4
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position + 10 - 1;
-			moveCount++;
+			addMove(position, position + 10 - 1, NORMAL);
 		}
 		if (determineColor(board[position - 1]) != BLACK && legalSquare(position - 1) == true) { // position 5
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position - 1;
-			moveCount++;
+			addMove(position, position - 1, NORMAL);
 		}
 		if (determineColor(board[position - 10 - 1]) != BLACK && legalSquare(position - 10 - 1) == true) { // position 6
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position - 10 - 1;
-			moveCount++;
+			addMove(position, position - 10 - 1, NORMAL);
 		}
 		if (determineColor(board[position - 10]) != BLACK && legalSquare(position - 10) == true) { // position 7
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position - 10;
-			moveCount++;
+			addMove(position, position - 10, NORMAL);
 		}
 		if (determineColor(board[position - 10 + 1]) != BLACK && legalSquare(position - 10 + 1) == true) { // position 8
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position - 10 + 1;
-			moveCount++;
+			addMove(position, position - 10 + 1, NORMAL);
 		}
 	}
 }
