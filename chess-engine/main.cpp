@@ -1090,7 +1090,6 @@ char numberToPiece(int number) {
 	}
 	return c;
 }
-
 void addMove(int initPosition, int finalPosition, int moveType) {
 	moveGen[moveCount][0] = initPosition;
 	moveGen[moveCount][1] = finalPosition;
@@ -1181,6 +1180,17 @@ int negaMax(int ply, int startColor) {
 		printf("Ply %d ", ply);
 		printf("%d to %d", moveGen[i][0], moveGen[i][1]);
 		printf(" (%c to %c)", numberToPiece(tempBoard[moveGen[i][0]]), numberToPiece(tempBoard[moveGen[i][1]]));
+		switch (moveGen[i][2]) {
+		case NORMAL:
+			printf(" Normal");
+			break;
+		case ENPASSANT:
+			printf(" En Passant");
+			break;
+		case CASTLING: 
+			printf(" Castling");
+			break;
+		}
 		printf("\n");
 	}
 	printf("\n");
