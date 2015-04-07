@@ -224,62 +224,42 @@ void moveGenerator(int board[120], int color) {
 void pawnMoves(int board[120], int position, int color) {
 	if (color == WHITE) {
 		if (A2 <= position && position <= H2 && board[position - 20] == EMPTY && board[position - 10] == EMPTY) { //if it did not move yet
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position - 20;
-			moveCount++;
+			addMove(position, position - 20, NORMAL);
 		}
 		if (board[position - 10] == EMPTY) {
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position - 10;
-			moveCount++;
+			addMove(position, position - 10, NORMAL);
 		}
 		if (determineColor(board[position - 10 - 1]) == BLACK) {
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position - 10 - 1;
-			moveCount++;
+			addMove(position, position - 10 - 1, NORMAL);
 		}
 		if (determineColor(board[position - 10 + 1]) == BLACK) {
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position - 10 + 1;
-			moveCount++;
+			addMove(position, position - 10 + 1, NORMAL);
 		}
 
 		//enPassant capture
 		if (enPassantPossible == true) {
 			if (enPassantPosition == position - 1 || enPassantPosition == position + 1) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = enPassantPosition-10;
-				moveCount++;
+				addMove(position, enPassantPosition - 10, ENPASSANT);
 			}
 		}
 
 	}
 	else if (color == BLACK) {
 		if (A7 <= position && position <= H7 && board[position + 20] == EMPTY && board[position + 10] == EMPTY) { //if it did not move yet
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position + 20;
-			moveCount++;
+			addMove(position, position + 20, NORMAL);
 		}
 		if (board[position + 10] == EMPTY) {
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position + 10;
-			moveCount++;
+			addMove(position, position + 10, NORMAL);
 		}
 		if (determineColor(board[position + 10 - 1]) == WHITE) {
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position + 10 - 1;
-			moveCount++;
+			addMove(position, position + 10 - 1, NORMAL);
 		}
 		if (determineColor(board[position + 10 + 1]) == WHITE) {
-			moveGen[moveCount][0] = position;
-			moveGen[moveCount][1] = position + 10 + 1;
-			moveCount++;
+			addMove(position, position + 10 + 1, NORMAL);
 		}
 		if (enPassantPossible == true) {
 			if (enPassantPosition == position - 1 || enPassantPosition == position + 1) {
-				moveGen[moveCount][0] = position;
-				moveGen[moveCount][1] = enPassantPosition + 10;
-				moveCount++;
+				addMove(position, enPassantPosition + 10, ENPASSANT);
 			}
 		}
 	}
