@@ -1014,26 +1014,15 @@ int negaMax(int ply, int startColor) {
 	int score = 1;
 	int tempScore;
 
-	//printf("Negamax called - Ply: %d\n", ply);
-	//printBoard(tempBoard);
-
 	if (ply == 0) {
 		score = boardEvaluation(tempBoard);
-		
 		totalMoveCount++;
-		/*
-		for (int i = 3; i > 0; i--) {
-			printf("%d to %d, ", currentMoveList[i][0], currentMoveList[i][1]);
-		}
-		*/
-		//printf("\n");
-		//printf("Score = %d\n", score);
 		return score;
 	}
 
-	//printf("moveGen called\n");
 	moveGenerator(tempBoard, startColor);
 	printf("\nMoveGenList\n");
+	
 	for (int i = 0; i < moveCount; i++) {
 
 		moveGenList[ply][i][0] = moveGen[i][0];
