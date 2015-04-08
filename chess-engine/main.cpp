@@ -1017,9 +1017,10 @@ int negaMax(int ply, int startColor) {
 	if (ply == 0) {
 		score = boardEvaluation(tempBoard);
 		totalMoveCount++;
-		return score;
+		if (startColor == WHITE)
+			return score;
+		else return (-1)*score;
 	}
-
 	moveGenerator(tempBoard, startColor);
 	printf("\nMoveGenList\n");
 	
