@@ -2,7 +2,7 @@
 /*DEFINITION*/
 #define MAX_MOVES 269
 #define MAX_PLY 10
-#define ENGINE_DEPTH 1
+#define ENGINE_DEPTH 5
 
 #define PAWN_VALUE 100
 #define KNIGHT_VALUE 300
@@ -1021,14 +1021,20 @@ int negaMax(int ply, int startColor) {
 			return score;
 		else return (-1)*score;
 	}
+
+	//reset max score
+	maxScore = -9999;
+
 	moveGenerator(tempBoard, startColor);
-	printf("\nMoveGenList\n");
+	//printf("\nMoveGenList\n");
 	
+	//moveGen copying and output for clarity
 	for (int i = 0; i < moveCount; i++) {
 
 		moveGenList[ply][i][0] = moveGen[i][0];
 		moveGenList[ply][i][1] = moveGen[i][1];
 
+		/*
 		printf("Ply %d ", ply);
 		printf("%d to %d", moveGen[i][0], moveGen[i][1]);
 		printf(" (%c to %c)", numberToPiece(tempBoard[moveGen[i][0]]), numberToPiece(tempBoard[moveGen[i][1]]));
@@ -1044,8 +1050,10 @@ int negaMax(int ply, int startColor) {
 			break;
 		}
 		printf("\n");
+		*/
 	}
-	printf("\n");
+	//printf("\n");
+
 	moveCountList[ply] = moveCount;
 
 	if (startColor == WHITE) {
@@ -1057,14 +1065,18 @@ int negaMax(int ply, int startColor) {
 		makeMove(moveGenList[ply][i], ply);
 		currentMoveList[ply][0] = moveGenList[ply][i][0];
 		currentMoveList[ply][1] = moveGenList[ply][i][1];
-		tempScore = negaMax(ply - 1, startColor);
+		tempScore = -1*negaMax(ply - 1, startColor);
+		
 		if (maxScore <= tempScore) { //renew max if the new score is higher & save where the max is
 			maxScore = tempScore;
 			//TODO: indexing moves
-
+			bestMoveList[ply][0] = moveGenList[ply][i][0];
+			bestMoveList[ply][1] = moveGenList[ply][i][1];
 		}
 		unmakeMove(ply);
 	}
+
+	return maxScore;
 }
 
 /*MAIN*/
@@ -1073,10 +1085,10 @@ void main() {
 	time(&timer);
 	int startTime = timer;
 
-	//setupBoard();
+	setupBoard();
 	
 	//simpler setup for test
-
+	/*
 	for (int i = 0; i < 120; i++) {
 		board[i] = ERROR;
 	}
@@ -1093,6 +1105,7 @@ void main() {
 	board[A8] = bR;
 	board[G8] = bN;
 	board[H8] = bR;
+	*/
 
 	printBoard(board);
 
