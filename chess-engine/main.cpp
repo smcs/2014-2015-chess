@@ -58,7 +58,7 @@ bool blackKingsideCastling(int board[120]); //function that returns whether or n
 bool blackQueensideCastling(int board[120]); //function that returns whether or not black can perform queenside castling
 void kingCastling(int board[120], int position, int color); //generates and stores all possible castling moves
 void addMove(int initPosition, int finalPosition, int moveType); // function that is called when a move should be added to moveGen
-
+bool insufficientPieces(int board[120]);
 
 /*CODE*/
 void setupBoard() {
@@ -957,6 +957,24 @@ void addMove(int initPosition, int finalPosition, int moveType) {
 	moveGen[moveCount][1] = finalPosition;
 	moveGen[moveCount][2] = moveType;
 	moveCount++;
+}
+bool insufficientPieces(int board[120]) { //only when KvK, K+NvK or K+BvK
+	int count = 0;
+	for (int i = 0; i < 120; i++) {
+		if (board[i] == wQ || board[i] == bQ) {
+			return false;
+		}
+		if (board[i] == wR || board[i] == wR) {
+			return false;
+		}
+		if (board[i] == wN || board[i] == bN || board[i] == wB || board[i] == bB) {
+			count++;
+		}
+		if (count >= 2) {
+			return false;
+		}
+	}
+	return true;
 }
 
 
