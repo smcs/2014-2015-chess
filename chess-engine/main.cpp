@@ -2,7 +2,7 @@
 /*DEFINITION*/
 #define MAX_MOVES 269
 #define MAX_PLY 10
-#define ENGINE_DEPTH 5
+#define ENGINE_DEPTH 4
 
 #define PAWN_VALUE 100
 #define KNIGHT_VALUE 300
@@ -32,6 +32,8 @@ bool blackKingsideRookMoved = false;
 bool blackQueensideRookMoved = false;
 bool enPassantPossible = false; //this is true if the previous move was a two-rank move by pawn
 int enPassantPosition = 0; //this is where the en Passant position currently is
+int whiteAttackPosition[120];
+int blackAttackPosition[120];
 
 /*FUNCTIONS*/
 void setupBoard(); // initializes the board
@@ -59,6 +61,8 @@ bool blackQueensideCastling(int board[120]); //function that returns whether or 
 void kingCastling(int board[120], int position, int color); //generates and stores all possible castling moves
 void addMove(int initPosition, int finalPosition, int moveType); // function that is called when a move should be added to moveGen
 bool insufficientPieces(int board[120]);
+int numberToRank(int position);
+char numberToFile(int position);
 
 /*CODE*/
 void setupBoard() {
@@ -744,6 +748,15 @@ bool blackQueensideCastling(int board[120]) {
 	return true;
 }
 
+int numberToRank(int position) {
+	return 10 - position / 10;
+}
+char numberToFile(int position) {
+	char file;
+	file = (char)position % 10 - 1 + 'A';
+	return file;
+}
+
 //TODO: castling moves two pieces, so a different method of storing may have to be used
 void kingCastling(int board[120], int position, int color) {
 	if (color == WHITE) {
@@ -1139,6 +1152,11 @@ void main() {
 	negaMax(ENGINE_DEPTH, WHITE);
 	
 	printf("Max Score: %d\n", maxScore);
+	for (int i = ENGINE_DEPTH; i > 0; i--){
+		//printf("Best Move (Ply %d): %d %d\n", i, bestMoveList[i][0], bestMoveList[i][1]);
+		printf("Best Move (Ply %d): %c%d %c%d\n", i, numberToFile(bestMoveList[i][0]), numberToRank(bestMoveList[i][0]),
+			numberToFile(bestMoveList[i][1]), numberToRank(bestMoveList[i][1]));
+	}
 	printf("%d Nondistinct Positions Detected\n", totalMoveCount);
 	time(&timer);
 	printf("Calculation done in %d seconds\n", timer - startTime);
