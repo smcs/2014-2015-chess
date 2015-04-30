@@ -1161,6 +1161,12 @@ void main() {
 	time(&timer);
 	printf("Calculation done in %d seconds\n", timer - startTime);
 
+	//TEMPORARY MAKEMOVE BY COMPUTER
+	board[bestMoveList[ENGINE_DEPTH][1]] = board[bestMoveList[ENGINE_DEPTH][0]];
+	board[bestMoveList[ENGINE_DEPTH][0]] = EMPTY;
+
+	printBoard(board);
+
 	// MAKEMOVE UNMAKEMOVE TEST
 	/*
 	for (int i = 0; i < 120; i++) {
