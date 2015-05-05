@@ -1145,6 +1145,8 @@ void main() {
 //		printf("%d, %d\n", moveGen[i][0], moveGen[i][1]);
 //	}
 
+	//NORMAL PRINT
+	/*
  	for (int i = 0; i < 120; i++) {
 		tempBoard[i] = board[i];
 	}
@@ -1166,7 +1168,52 @@ void main() {
 	board[bestMoveList[ENGINE_DEPTH][0]] = EMPTY;
 
 	printBoard(board);
+	*/
 
+	//TEMPORARY CONTINUOUS MOVE TEST
+	int cnt = 0;
+	while (cnt <= 5) {
+		cnt++;
+
+		//CLEAR DATA
+		for (int i = 0; i < moveCount; i++){
+			moveGen[i][0] = 0;
+			moveGen[i][1] = 0;
+			for (int j = ENGINE_DEPTH; j > 0; j--) {
+				moveGenList[j][i][0] = 0;
+				moveGenList[j][i][1] = 0;
+			}
+		}
+
+		startTime = timer;
+
+		for (int i = 0; i < 120; i++) {
+			tempBoard[i] = board[i];
+		}
+
+		if (cnt % 2 == 1){
+			negaMax(ENGINE_DEPTH, WHITE);
+		}
+		else if (cnt % 2 == 0){
+			negaMax(ENGINE_DEPTH, BLACK);
+		}
+
+		printf("Max Score: %d\n", maxScore);
+		for (int i = ENGINE_DEPTH; i > 0; i--){
+			printf("Best Move (Ply %d): %c%d %c%d\n", i, numberToFile(bestMoveList[i][0]), numberToRank(bestMoveList[i][0]),
+				numberToFile(bestMoveList[i][1]), numberToRank(bestMoveList[i][1]));
+		}
+		//printf("%d Nondistinct Positions Detected\n", totalMoveCount);
+		time(&timer);
+		printf("Calculation done in %d seconds\n", timer - startTime);
+
+		//TEMPORARY MAKEMOVE BY COMPUTER
+		board[bestMoveList[ENGINE_DEPTH][1]] = board[bestMoveList[ENGINE_DEPTH][0]];
+		board[bestMoveList[ENGINE_DEPTH][0]] = EMPTY;
+
+		printBoard(board);
+
+	}
 	// MAKEMOVE UNMAKEMOVE TEST
 	/*
 	for (int i = 0; i < 120; i++) {
