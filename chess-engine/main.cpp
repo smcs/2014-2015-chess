@@ -1087,10 +1087,7 @@ int negaMax(int ply, int startColor) {
 
 	moveCountList[ply] = moveCount;
 
-	if (startColor == WHITE) {
-		startColor = BLACK;  
-	}
-	else startColor = WHITE;
+	startColor = !startColor;
 
 	for (int i = 0; i < moveCountList[ply]; i++) {
 		makeMove(moveGenList[ply][i], ply);
@@ -1172,7 +1169,7 @@ void main() {
 
 	//TEMPORARY CONTINUOUS MOVE TEST
 	int cnt = 0;
-	while (cnt <= 5) {
+	while (cnt <= 1) {
 		cnt++;
 
 		//CLEAR DATA
@@ -1183,6 +1180,10 @@ void main() {
 				moveGenList[j][i][0] = 0;
 				moveGenList[j][i][1] = 0;
 			}
+		}
+		for (int i = ENGINE_DEPTH; i > 0; i--) {
+			bestMoveList[i][0] = 0;
+			bestMoveList[i][1] = 0;
 		}
 
 		startTime = timer;
@@ -1199,7 +1200,7 @@ void main() {
 		}
 
 		printf("Max Score: %d\n", maxScore);
-		for (int i = ENGINE_DEPTH; i > 0; i--){
+		for (int i = ENGINE_DEPTH; i >= 0; i--){
 			printf("Best Move (Ply %d): %c%d %c%d\n", i, numberToFile(bestMoveList[i][0]), numberToRank(bestMoveList[i][0]),
 				numberToFile(bestMoveList[i][1]), numberToRank(bestMoveList[i][1]));
 		}
