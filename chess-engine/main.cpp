@@ -1087,20 +1087,22 @@ int negaMax(int ply, int startColor) {
 
 	moveCountList[ply] = moveCount;
 
-	startColor = !startColor;
-
 	for (int i = 0; i < moveCountList[ply]; i++) {
 		makeMove(moveGenList[ply][i], ply);
 		currentMoveList[ply][0] = moveGenList[ply][i][0];
 		currentMoveList[ply][1] = moveGenList[ply][i][1];
-		tempScore = -1*negaMax(ply - 1, startColor);
+		tempScore = -1*negaMax(ply - 1, !startColor);
 		
-		if (maxScore <= tempScore) { //renew max if the new score is higher & save where the max is
-			maxScore = tempScore;
+		if (ply == ENGINE_DEPTH) {
+			printf("Max Score: %d\n", maxScore);
+			printf("Temp SCore: %d\n", tempScore);
+		}
+//		if (maxScore <= tempScore) { //renew max if the new score is higher & save where the max is
+//			maxScore = tempScore;
 			//TODO: indexing moves
 			bestMoveList[ply][0] = moveGenList[ply][i][0];
 			bestMoveList[ply][1] = moveGenList[ply][i][1];
-		}
+//		}
 		unmakeMove(ply);
 	}
 
@@ -1169,7 +1171,7 @@ void main() {
 
 	//TEMPORARY CONTINUOUS MOVE TEST
 	int cnt = 0;
-	while (cnt <= 1) {
+	while (cnt <= 3) {
 		cnt++;
 
 		//CLEAR DATA
