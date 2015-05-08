@@ -2,7 +2,7 @@
 /*DEFINITION*/
 #define MAX_MOVES 269
 #define MAX_PLY 10
-#define ENGINE_DEPTH 2
+#define ENGINE_DEPTH 4
 
 #define PAWN_VALUE 100
 #define KNIGHT_VALUE 300
@@ -1144,8 +1144,8 @@ int negaMax(int ply, int startColor) {
 	}
 
 	moveGenerator(tempBoard, startColor);
-	printCurrentMoveList(ply, 3);
-	printMoveGen(5);
+	//printCurrentMoveList(ply, 3);
+	//printMoveGen(5);
 
 	for (int i = 0; i < moveCount; i++) {
 		moveGenList[ply][i][0] = moveGen[i][0];
@@ -1188,9 +1188,8 @@ void main() {
 	//setupTestBoard();
 	printBoard(board);
 
-	//CONTINUOUS MOVE TEST
-	int cnt = 0;
-	while (cnt <= 0) {
+	int cnt = 1;
+	while (cnt <= 20) {
 		cnt++;
 
 		//CLEAR DATA
@@ -1213,10 +1212,10 @@ void main() {
 			tempBoard[i] = board[i];
 		}
 
-		if (cnt % 2 == 1){
+		if (cnt % 2 == 0){
 			finalMaxScore = negaMax(ENGINE_DEPTH, WHITE);
 		}
-		else if (cnt % 2 == 0){
+		else {
 			finalMaxScore = negaMax(ENGINE_DEPTH, BLACK);
 		}
 
