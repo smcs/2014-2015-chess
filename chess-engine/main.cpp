@@ -34,16 +34,15 @@ bool enPassantPossible = false; //this is true if the previous move was a two-ra
 int enPassantPosition = 0; //this is where the en Passant position currently is
 int whiteAttackPosition[120];
 int blackAttackPosition[120];
+int finalMaxScore;
 /*RECURSION GLOBAL VARIABLES*/
 int tempBoard[120]; //board being moved
 int moveMadeList[MAX_PLY][2]; //list of moves made
 int capturedPiece[MAX_PLY]; //list of pieces captured from move
 int moveCountList[MAX_PLY]; //list of number of possible moves
 int moveGenList[MAX_PLY][MAX_MOVES][2]; //list of possible moves
-int maxScore = -9999;
 int bestMoveList[MAX_PLY][2];
 int currentMoveList[MAX_PLY][2];
-
 
 /*FUNCTIONS*/
 void setupBoard(); // initializes the board
@@ -779,9 +778,9 @@ void setupTestBoard(){
 	board[H8] = bR;	
 }
 void printMoveGen(int movePerLine) {
-	printf("--MOVEGEN--\n");
+	printf("-----MOVEGEN-----\n");
 	for (int i = 0; i < moveCount; i++) {
-		printf("%c%d to %c%d ", numberToFile(moveGen[i][0]), numberToRank(moveGen[i][0]), numberToFile(moveGen[i][1]), numberToRank(moveGen[i][1]));
+		printf("%2d: %c%d to %c%d  ", i+1, numberToFile(moveGen[i][0]), numberToRank(moveGen[i][0]), numberToFile(moveGen[i][1]), numberToRank(moveGen[i][1]));
 		if (i % movePerLine == movePerLine-1) {
 			printf("\n");
 		}
@@ -791,12 +790,68 @@ void printMoveGen(int movePerLine) {
 void printCurrentMoveList(int ply, int movePerLine) {
 	printf("--CURRENT MOVES--\n");
 	for (int i = ENGINE_DEPTH; i > ply; i--) {
-		printf("%c%d to %c%d ", numberToFile(currentMoveList[i][0]), numberToRank(currentMoveList[i][0]), numberToFile(currentMoveList[i][1]), numberToRank(currentMoveList[i][1]));
+		printf("%c%d to %c%d  ", numberToFile(currentMoveList[i][0]), numberToRank(currentMoveList[i][0]), numberToFile(currentMoveList[i][1]), numberToRank(currentMoveList[i][1]));
 		if (i % movePerLine == movePerLine - 1) {
 			printf("\n");
 		}
 	}
 }
+void printFileRankBoard(int board[120]) {
+	for (int i = 2; i < 10; i++) {
+		for (int j = 1; j < 9; j++) {
+			switch (board[i * 10 + j]) {
+			case wP:
+				printf("P");
+				break;
+			case wR:
+				printf("R");
+				break;
+			case wN:
+				printf("N");
+				break;
+			case wB:
+				printf("B");
+				break;
+			case wQ:
+				printf("Q");
+				break;
+			case wK:
+				printf("K");
+				break;
+			case bP:
+				printf("p");
+				break;
+			case bR:
+				printf("r");
+				break;
+			case bN:
+				printf("n");
+				break;
+			case bB:
+				printf("b");
+				break;
+			case bQ:
+				printf("q");
+				break;
+			case bK:
+				printf("k");
+				break;
+			case EMPTY:
+				printf("_");
+				break;
+			case ERROR:
+				printf("X");
+				break;
+
+			}
+			printf(" ");
+		}
+		printf("| %d \n", 10-i);
+	}
+	printf("--------------- \n");
+	printf("A B C D E F G H \n");
+}
+
 
 int numberToRank(int position) {
 	return 10 - position / 10;
@@ -1078,6 +1133,7 @@ void unmakeMove( int currentPly ) {
 int negaMax(int ply, int startColor) {
 	int score;
 	int tempScore;
+	int maxScore = -9999; //reset max score
 
 	if (ply == 0) {
 		score = boardEvaluation(tempBoard);
@@ -1086,8 +1142,6 @@ int negaMax(int ply, int startColor) {
 			return score;
 		else return (-1)*score;
 	}
-
-	maxScore = -9999; //reset max score
 
 	moveGenerator(tempBoard, startColor);
 	printCurrentMoveList(ply, 3);
@@ -1105,17 +1159,18 @@ int negaMax(int ply, int startColor) {
 		currentMoveList[ply][1] = moveGenList[ply][i][1];
 		tempScore = -1*negaMax(ply - 1, !startColor);
 		
+		unmakeMove(ply);
+
 	//	if (ply == ENGINE_DEPTH) {
 	//		printf("Max Score: %d\n", maxScore);
 	//		printf("Temp SCore: %d\n", tempScore);
-	//	}
-//		if (maxScore <= tempScore) { //renew max if the new score is higher & save where the max is
-//			maxScore = tempScore;
+	//	}	
+		if (maxScore <= tempScore) { //renew max if the new score is higher & save where the max is
+			maxScore = tempScore;
 			//TODO: indexing moves
 			bestMoveList[ply][0] = moveGenList[ply][i][0];
 			bestMoveList[ply][1] = moveGenList[ply][i][1];
-//		}
-		unmakeMove(ply);
+		}		
 	}
 
 	return maxScore;
@@ -1123,6 +1178,8 @@ int negaMax(int ply, int startColor) {
 
 /*MAIN*/
 void main() {
+
+	//FILE * out = fopen("output.txt", "w");
 
 	time(&timer);
 	int startTime = timer;
@@ -1157,13 +1214,13 @@ void main() {
 		}
 
 		if (cnt % 2 == 1){
-			negaMax(ENGINE_DEPTH, WHITE);
+			finalMaxScore = negaMax(ENGINE_DEPTH, WHITE);
 		}
 		else if (cnt % 2 == 0){
-			negaMax(ENGINE_DEPTH, BLACK);
+			finalMaxScore = negaMax(ENGINE_DEPTH, BLACK);
 		}
 
-		printf("Max Score: %d\n", maxScore);
+		printf("Max Score: %d\n", finalMaxScore);
 		for (int i = ENGINE_DEPTH; i > 0; i--){
 			printf("Best Move (Ply %d): %c%d %c%d\n", i, numberToFile(bestMoveList[i][0]), numberToRank(bestMoveList[i][0]),
 				numberToFile(bestMoveList[i][1]), numberToRank(bestMoveList[i][1]));
