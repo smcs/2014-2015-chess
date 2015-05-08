@@ -34,6 +34,16 @@ bool enPassantPossible = false; //this is true if the previous move was a two-ra
 int enPassantPosition = 0; //this is where the en Passant position currently is
 int whiteAttackPosition[120];
 int blackAttackPosition[120];
+/*RECURSION GLOBAL VARIABLES*/
+int tempBoard[120]; //board being moved
+int moveMadeList[MAX_PLY][2]; //list of moves made
+int capturedPiece[MAX_PLY]; //list of pieces captured from move
+int moveCountList[MAX_PLY]; //list of number of possible moves
+int moveGenList[MAX_PLY][MAX_MOVES][2]; //list of possible moves
+int maxScore = -9999;
+int bestMoveList[MAX_PLY][2];
+int currentMoveList[MAX_PLY][2];
+
 
 /*FUNCTIONS*/
 void setupBoard(); // initializes the board
@@ -768,6 +778,25 @@ void setupTestBoard(){
 	board[G8] = bN;
 	board[H8] = bR;	
 }
+void printMoveGen(int movePerLine) {
+	printf("--MOVEGEN--\n");
+	for (int i = 0; i < moveCount; i++) {
+		printf("%c%d to %c%d ", numberToFile(moveGen[i][0]), numberToRank(moveGen[i][0]), numberToFile(moveGen[i][1]), numberToRank(moveGen[i][1]));
+		if (i % movePerLine == movePerLine-1) {
+			printf("\n");
+		}
+	}
+	printf("\n");
+}
+void printCurrentMoveList(int ply, int movePerLine) {
+	printf("--CURRENT MOVES--\n");
+	for (int i = ENGINE_DEPTH; i > ply; i--) {
+		printf("%c%d to %c%d ", numberToFile(currentMoveList[i][0]), numberToRank(currentMoveList[i][0]), numberToFile(currentMoveList[i][1]), numberToRank(currentMoveList[i][1]));
+		if (i % movePerLine == movePerLine - 1) {
+			printf("\n");
+		}
+	}
+}
 
 int numberToRank(int position) {
 	return 10 - position / 10;
@@ -1012,18 +1041,6 @@ bool insufficientPieces(int board[120]) { //only when KvK, K+NvK or K+BvK
 }
 
 
-//TODO: RECURSION does not work correctly - "max" for negative (non-white) values need to be reexamined
-
-/*RECURSION*/
-int tempBoard[120]; //board being moved
-int moveMadeList[MAX_PLY][2]; //list of moves made
-int capturedPiece[MAX_PLY]; //list of pieces captured from move
-int moveCountList[MAX_PLY]; //list of number of possible moves
-int moveGenList[MAX_PLY][MAX_MOVES][2]; //list of possible moves
-int maxScore = -9999;
-int bestMoveList[MAX_PLY][2];
-int currentMoveList[MAX_PLY][2];
-
 void makeMove( int move[2], int currentPly ) { //move[0]: initial square, move[1]: terminal square
 	//printf("MakeMove called - Ply: %d\n", currentPly);
 
@@ -1059,7 +1076,7 @@ void unmakeMove( int currentPly ) {
 }
 
 int negaMax(int ply, int startColor) {
-	int score = 1;
+	int score;
 	int tempScore;
 
 	if (ply == 0) {
@@ -1073,7 +1090,9 @@ int negaMax(int ply, int startColor) {
 	maxScore = -9999; //reset max score
 
 	moveGenerator(tempBoard, startColor);
-	//moveGen copying and output for clarity
+	printCurrentMoveList(ply, 3);
+	printMoveGen(5);
+
 	for (int i = 0; i < moveCount; i++) {
 		moveGenList[ply][i][0] = moveGen[i][0];
 		moveGenList[ply][i][1] = moveGen[i][1];
@@ -1114,7 +1133,7 @@ void main() {
 
 	//CONTINUOUS MOVE TEST
 	int cnt = 0;
-	while (cnt <= 1) {
+	while (cnt <= 0) {
 		cnt++;
 
 		//CLEAR DATA
@@ -1145,7 +1164,7 @@ void main() {
 		}
 
 		printf("Max Score: %d\n", maxScore);
-		for (int i = ENGINE_DEPTH; i >= 0; i--){
+		for (int i = ENGINE_DEPTH; i > 0; i--){
 			printf("Best Move (Ply %d): %c%d %c%d\n", i, numberToFile(bestMoveList[i][0]), numberToRank(bestMoveList[i][0]),
 				numberToFile(bestMoveList[i][1]), numberToRank(bestMoveList[i][1]));
 		}
