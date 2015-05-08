@@ -2,7 +2,7 @@
 /*DEFINITION*/
 #define MAX_MOVES 269
 #define MAX_PLY 10
-#define ENGINE_DEPTH 4
+#define ENGINE_DEPTH 2
 
 #define PAWN_VALUE 100
 #define KNIGHT_VALUE 300
@@ -1093,10 +1093,10 @@ int negaMax(int ply, int startColor) {
 		currentMoveList[ply][1] = moveGenList[ply][i][1];
 		tempScore = -1*negaMax(ply - 1, !startColor);
 		
-		if (ply == ENGINE_DEPTH) {
-			printf("Max Score: %d\n", maxScore);
-			printf("Temp SCore: %d\n", tempScore);
-		}
+	//	if (ply == ENGINE_DEPTH) {
+	//		printf("Max Score: %d\n", maxScore);
+	//		printf("Temp SCore: %d\n", tempScore);
+	//	}
 //		if (maxScore <= tempScore) { //renew max if the new score is higher & save where the max is
 //			maxScore = tempScore;
 			//TODO: indexing moves
@@ -1171,7 +1171,7 @@ void main() {
 
 	//TEMPORARY CONTINUOUS MOVE TEST
 	int cnt = 0;
-	while (cnt <= 3) {
+	while (cnt <= 1) {
 		cnt++;
 
 		//CLEAR DATA
