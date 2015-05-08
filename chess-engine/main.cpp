@@ -1186,10 +1186,10 @@ void main() {
 
 	setupBoard();
 	//setupTestBoard();
-	printBoard(board);
+	printBoardSimple(board);
 
 	int cnt = 1;
-	while (cnt <= 20) {
+	while (cnt <= 130) {
 		cnt++;
 
 		//CLEAR DATA
@@ -1220,10 +1220,12 @@ void main() {
 		}
 
 		printf("Max Score: %d\n", finalMaxScore);
+		/*
 		for (int i = ENGINE_DEPTH; i > 0; i--){
 			printf("Best Move (Ply %d): %c%d %c%d\n", i, numberToFile(bestMoveList[i][0]), numberToRank(bestMoveList[i][0]),
 				numberToFile(bestMoveList[i][1]), numberToRank(bestMoveList[i][1]));
 		}
+		*/
 		//printf("%d Nondistinct Positions Detected\n", totalMoveCount);
 		time(&timer);
 		printf("Calculation done in %d seconds\n", timer - startTime);
@@ -1232,7 +1234,7 @@ void main() {
 		board[bestMoveList[ENGINE_DEPTH][1]] = board[bestMoveList[ENGINE_DEPTH][0]];
 		board[bestMoveList[ENGINE_DEPTH][0]] = EMPTY;
 
-		printBoard(board);
+		printBoardSimple(board);
 
 	}
 }
