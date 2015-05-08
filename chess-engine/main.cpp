@@ -61,6 +61,7 @@ bool blackQueensideCastling(int board[120]); //function that returns whether or 
 void kingCastling(int board[120], int position, int color); //generates and stores all possible castling moves
 void addMove(int initPosition, int finalPosition, int moveType); // function that is called when a move should be added to moveGen
 bool insufficientPieces(int board[120]);
+void setupTestBoard(); //simpler setup for test
 int numberToRank(int position);
 char numberToFile(int position);
 
@@ -747,6 +748,26 @@ bool blackQueensideCastling(int board[120]) {
 	//TODO: if king gets itself on check during castling, castling cannot happen
 	return true;
 }
+void setupTestBoard(){
+	//simpler setup for test
+	for (int i = 0; i < 120; i++) {
+		board[i] = ERROR;
+	}
+	for (int i=2; i<10; i++) {
+		for (int j = 1; j < 9; j++) {
+			board[i*10 + j] = EMPTY;
+		}
+	}
+
+	board[E1] = wK;
+	board[A1] = wR;
+	board[G1] = wN;
+	board[H1] = wR;
+	board[E8] = bK;
+	board[A8] = bR;
+	board[G8] = bN;
+	board[H8] = bR;	
+}
 
 int numberToRank(int position) {
 	return 10 - position / 10;
@@ -997,12 +1018,8 @@ bool insufficientPieces(int board[120]) { //only when KvK, K+NvK or K+BvK
 int tempBoard[120]; //board being moved
 int moveMadeList[MAX_PLY][2]; //list of moves made
 int capturedPiece[MAX_PLY]; //list of pieces captured from move
-
-/*RECURSION 2*/
 int moveCountList[MAX_PLY]; //list of number of possible moves
 int moveGenList[MAX_PLY][MAX_MOVES][2]; //list of possible moves
-
-/*RECURSION 3*/
 int maxScore = -9999;
 int bestMoveList[MAX_PLY][2];
 int currentMoveList[MAX_PLY][2];
@@ -1053,38 +1070,14 @@ int negaMax(int ply, int startColor) {
 		else return (-1)*score;
 	}
 
-	//reset max score
-	maxScore = -9999;
+	maxScore = -9999; //reset max score
 
 	moveGenerator(tempBoard, startColor);
-	//printf("\nMoveGenList\n");
-	
 	//moveGen copying and output for clarity
 	for (int i = 0; i < moveCount; i++) {
-
 		moveGenList[ply][i][0] = moveGen[i][0];
 		moveGenList[ply][i][1] = moveGen[i][1];
-
-		/*
-		printf("Ply %d ", ply);
-		printf("%d to %d", moveGen[i][0], moveGen[i][1]);
-		printf(" (%c to %c)", numberToPiece(tempBoard[moveGen[i][0]]), numberToPiece(tempBoard[moveGen[i][1]]));
-		switch (moveGen[i][2]) {
-		case NORMAL:
-			printf(" Normal");
-			break;
-		case ENPASSANT:
-			printf(" En Passant");
-			break;
-		case CASTLING: 
-			printf(" Castling");
-			break;
-		}
-		printf("\n");
-		*/
 	}
-	//printf("\n");
-
 	moveCountList[ply] = moveCount;
 
 	for (int i = 0; i < moveCountList[ply]; i++) {
@@ -1116,60 +1109,10 @@ void main() {
 	int startTime = timer;
 
 	setupBoard();
-	
-	//simpler setup for test
-	/*
-	for (int i = 0; i < 120; i++) {
-		board[i] = ERROR;
-	}
-	for (int i=2; i<10; i++) {
-		for (int j = 1; j < 9; j++) {
-			board[i*10 + j] = EMPTY;
-		}
-	}
-	board[E1] = wK;
-	board[A1] = wR;
-	board[G1] = wN;
-	board[H1] = wR;
-	board[E8] = bK;
-	board[A8] = bR;
-	board[G8] = bN;
-	board[H8] = bR;
-	*/
-
+	//setupTestBoard();
 	printBoard(board);
 
-//	moveGenerator(board, WHITE);
-//	for (int i = 0; i < moveCount; i++) {
-//		printf("%d, %d\n", moveGen[i][0], moveGen[i][1]);
-//	}
-
-	//NORMAL PRINT
-	/*
- 	for (int i = 0; i < 120; i++) {
-		tempBoard[i] = board[i];
-	}
-
-	negaMax(ENGINE_DEPTH, WHITE);
-	
-	printf("Max Score: %d\n", maxScore);
-	for (int i = ENGINE_DEPTH; i > 0; i--){
-		//printf("Best Move (Ply %d): %d %d\n", i, bestMoveList[i][0], bestMoveList[i][1]);
-		printf("Best Move (Ply %d): %c%d %c%d\n", i, numberToFile(bestMoveList[i][0]), numberToRank(bestMoveList[i][0]),
-			numberToFile(bestMoveList[i][1]), numberToRank(bestMoveList[i][1]));
-	}
-	printf("%d Nondistinct Positions Detected\n", totalMoveCount);
-	time(&timer);
-	printf("Calculation done in %d seconds\n", timer - startTime);
-
-	//TEMPORARY MAKEMOVE BY COMPUTER
-	board[bestMoveList[ENGINE_DEPTH][1]] = board[bestMoveList[ENGINE_DEPTH][0]];
-	board[bestMoveList[ENGINE_DEPTH][0]] = EMPTY;
-
-	printBoard(board);
-	*/
-
-	//TEMPORARY CONTINUOUS MOVE TEST
+	//CONTINUOUS MOVE TEST
 	int cnt = 0;
 	while (cnt <= 1) {
 		cnt++;
@@ -1217,21 +1160,4 @@ void main() {
 		printBoard(board);
 
 	}
-	// MAKEMOVE UNMAKEMOVE TEST
-	/*
-	for (int i = 0; i < 120; i++) {
-		tempBoard[i] = board[i];
-	}
-	//printBoard(tempBoard);
-
-	moveGenerator(WHITE);
-	printf("%d to %d\n\n", moveGen[0][0], moveGen[0][1]);
-	makeMove(moveGen[0], 1);
-	//printBoard(tempBoard);
-	unmakeMove(1);
-	printBoardSimple(tempBoard);
-	*/
-
-	//printf("White has an advantage of %d centipawns.\n", boardEvaluation());
-
 }
