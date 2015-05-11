@@ -35,6 +35,8 @@ int enPassantPosition = 0; //this is where the en Passant position currently is
 int whiteAttackPosition[120];
 int blackAttackPosition[120];
 int finalMaxScore;
+bool attackTable[120];
+bool attackTableList[ENGINE_DEPTH][120];
 /*RECURSION GLOBAL VARIABLES*/
 int tempBoard[120]; //board being moved
 int moveMadeList[MAX_PLY][2]; //list of moves made
@@ -73,7 +75,9 @@ bool insufficientPieces(int board[120]);
 void setupTestBoard(); //simpler setup for test
 int numberToRank(int position);
 char numberToFile(int position);
-
+void clearAttackTable();
+void updateAttackTable(int attackedPosition);
+void copyAttackTable(int ply);
 /*CODE*/
 void setupBoard() {
 	
@@ -238,10 +242,10 @@ void moveGenerator(int board[120], int color) {
 void pawnMoves(int board[120], int position, int color) {
 	if (color == WHITE) {
 		if (A2 <= position && position <= H2 && board[position - 20] == EMPTY && board[position - 10] == EMPTY) { //if it did not move yet
-			addMove(position, position - 20, NORMAL);
+			addMove(position, position - 20, NOATTACK);
 		}
 		if (board[position - 10] == EMPTY) {
-			addMove(position, position - 10, NORMAL);
+			addMove(position, position - 10, NOATTACK);
 		}
 		if (determineColor(board[position - 10 - 1]) == BLACK) {
 			addMove(position, position - 10 - 1, NORMAL);
@@ -260,10 +264,10 @@ void pawnMoves(int board[120], int position, int color) {
 	}
 	else if (color == BLACK) {
 		if (A7 <= position && position <= H7 && board[position + 20] == EMPTY && board[position + 10] == EMPTY) { //if it did not move yet
-			addMove(position, position + 20, NORMAL);
+			addMove(position, position + 20, NOATTACK);
 		}
 		if (board[position + 10] == EMPTY) {
-			addMove(position, position + 10, NORMAL);
+			addMove(position, position + 10, NOATTACK);
 		}
 		if (determineColor(board[position + 10 - 1]) == WHITE) {
 			addMove(position, position + 10 - 1, NORMAL);
@@ -1070,6 +1074,9 @@ void addMove(int initPosition, int finalPosition, int moveType) {
 	moveGen[moveCount][1] = finalPosition;
 	moveGen[moveCount][2] = moveType;
 	moveCount++;
+	if (moveType == NORMAL) {
+		//updateAttackTable(finalPosition);
+	}
 }
 bool insufficientPieces(int board[120]) { //only when KvK, K+NvK or K+BvK
 	int count = 0;
@@ -1135,6 +1142,32 @@ bool currentCheckDetection(int detectColor) {
 	return false;
 }
 
+void clearAttackTable() {
+	for (int i = 0; i < 120; i++) {
+		attackTable[i] = false;
+	}
+}
+void updateAttackTable(int attackedPosition) {
+	attackTable[attackedPosition] = true;
+}
+void copyAttackTable(int ply) {
+	for (int i = 0; i < 120; i++) {
+		attackTableList[ply][i] = attackTable[i];
+	}
+}
+void printAttackTable() {
+	printf("---ATTACK TABLE---\n");
+	for (int i = 2; i < 10; i++) {
+		for (int j = 1; j < 9; j++){
+			if (attackTable[i * 10 + j] == true)
+				printf("X ");
+			else
+				printf("_ ");
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
 
 int negaMax(int ply, int startColor) {
 	int score;
@@ -1158,6 +1191,9 @@ int negaMax(int ply, int startColor) {
 		moveGenList[ply][i][1] = moveGen[i][1];
 	}
 	moveCountList[ply] = moveCount;
+
+	//copyAttackTable(ply);
+	//printAttackTable();
 
 	for (int i = 0; i < moveCountList[ply]; i++) {
 		makeMove(moveGenList[ply][i], ply);
@@ -1195,7 +1231,7 @@ void main() {
 	printBoardSimple(board);
 
 	int cnt = 1;
-	while (cnt <= 130) {
+	while (cnt <= 1) {
 		cnt++;
 
 		//CLEAR DATA

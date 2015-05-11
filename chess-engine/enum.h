@@ -37,5 +37,6 @@ enum colors {
 enum specialMoveType {
 	NORMAL,
 	CASTLING,
-	ENPASSANT
+	ENPASSANT,
+	NOATTACK
 };
