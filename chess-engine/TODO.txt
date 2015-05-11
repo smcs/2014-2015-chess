@@ -1,0 +1,3 @@
+TODO: Castling moves two pieces, so a different method of storing may have to be used
+
+Check Detection

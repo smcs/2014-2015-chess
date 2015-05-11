@@ -28,7 +28,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Implementation.txt" />
     <Text Include="Log.txt" />
+    <Text Include="TODO.txt" />
   </ItemGroup>
 </Project>

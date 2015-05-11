@@ -851,8 +851,6 @@ void printFileRankBoard(int board[120]) {
 	printf("--------------- \n");
 	printf("A B C D E F G H \n");
 }
-
-
 int numberToRank(int position) {
 	return 10 - position / 10;
 }
@@ -861,8 +859,6 @@ char numberToFile(int position) {
 	file = (char)position % 10 - 1 + 'A';
 	return file;
 }
-
-//TODO: castling moves two pieces, so a different method of storing may have to be used
 void kingCastling(int board[120], int position, int color) {
 	if (color == WHITE) {
 		if (whiteKingsideCastling(board) == true) {
@@ -881,7 +877,6 @@ void kingCastling(int board[120], int position, int color) {
 		}
 	}
 }
-
 void printMoveList() {
 	for (int i = 0; i < moveCount; i++) {
 		printf("%d to %d", moveGen[i][0], moveGen[i][1]);
@@ -1094,8 +1089,6 @@ bool insufficientPieces(int board[120]) { //only when KvK, K+NvK or K+BvK
 	}
 	return true;
 }
-
-
 void makeMove( int move[2], int currentPly ) { //move[0]: initial square, move[1]: terminal square
 	//printf("MakeMove called - Ply: %d\n", currentPly);
 
@@ -1129,6 +1122,19 @@ void unmakeMove( int currentPly ) {
 
 	
 }
+
+bool currentCheckDetection(int detectColor) {
+	for (int i = 0; i < moveCount; i++) {
+		if (moveGen[i][1] == bK && detectColor == WHITE){
+			return true;
+		}
+		if (moveGen[i][1] == wK && detectColor == BLACK){
+			return true;
+		}
+	}
+	return false;
+}
+
 
 int negaMax(int ply, int startColor) {
 	int score;
