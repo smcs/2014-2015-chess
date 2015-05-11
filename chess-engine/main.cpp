@@ -36,7 +36,7 @@ int whiteAttackPosition[120];
 int blackAttackPosition[120];
 int finalMaxScore;
 bool attackTable[120];
-bool attackTableList[ENGINE_DEPTH][120];
+bool attackTableList[ENGINE_DEPTH+1][120];
 /*RECURSION GLOBAL VARIABLES*/
 int tempBoard[120]; //board being moved
 int moveMadeList[MAX_PLY][2]; //list of moves made
@@ -1075,7 +1075,7 @@ void addMove(int initPosition, int finalPosition, int moveType) {
 	moveGen[moveCount][2] = moveType;
 	moveCount++;
 	if (moveType == NORMAL) {
-		//updateAttackTable(finalPosition);
+		updateAttackTable(finalPosition);
 	}
 }
 bool insufficientPieces(int board[120]) { //only when KvK, K+NvK or K+BvK
@@ -1168,6 +1168,19 @@ void printAttackTable() {
 	}
 	printf("\n");
 }
+void printAttackTable(int ply) {
+	printf("---ATTACK TABLE---\n");
+	for (int i = 2; i < 10; i++) {
+		for (int j = 1; j < 9; j++){
+			if (attackTableList[ply][i * 10 + j] == true)
+				printf("X ");
+			else
+				printf("_ ");
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
 
 int negaMax(int ply, int startColor) {
 	int score;
@@ -1192,7 +1205,7 @@ int negaMax(int ply, int startColor) {
 	}
 	moveCountList[ply] = moveCount;
 
-	//copyAttackTable(ply);
+	copyAttackTable(ply);
 	//printAttackTable();
 
 	for (int i = 0; i < moveCountList[ply]; i++) {
@@ -1231,7 +1244,7 @@ void main() {
 	printBoardSimple(board);
 
 	int cnt = 1;
-	while (cnt <= 1) {
+	while (cnt <= 2) {
 		cnt++;
 
 		//CLEAR DATA
@@ -1271,6 +1284,7 @@ void main() {
 		//printf("%d Nondistinct Positions Detected\n", totalMoveCount);
 		time(&timer);
 		printf("Calculation done in %d seconds\n", timer - startTime);
+		printAttackTable(ENGINE_DEPTH);
 
 		//TEMPORARY MAKEMOVE BY COMPUTER
 		board[bestMoveList[ENGINE_DEPTH][1]] = board[bestMoveList[ENGINE_DEPTH][0]];
