@@ -3,6 +3,7 @@
 #define MAX_MOVES 269
 #define MAX_PLY 10
 #define ENGINE_DEPTH 4
+#define MAX_MATCH_LENGTH 500
 
 #define PAWN_VALUE 100
 #define KNIGHT_VALUE 300
@@ -37,6 +38,9 @@ int enPassantPosition = 0; //this is where the en Passant position currently is
 int finalMaxScore;
 bool attackTable[120];
 bool attackTableList[ENGINE_DEPTH+1][120];
+
+int moveMadeList[MAX_MATCH_LENGTH][2];
+int moveMadeCount=0;
 /*RECURSION GLOBAL VARIABLES*/
 int tempBoard[120]; //board being moved
 int tempMoveMadeList[MAX_PLY][2]; //list of moves made
@@ -1189,6 +1193,19 @@ void printAttackTable(int ply) {
 	printf("\n");
 }
 
+void saveMove(int initialPos, int finalPos){
+	moveMadeList[moveMadeCount][0] = initialPos;
+	moveMadeList[moveMadeCount][1] = finalPos;
+	moveMadeCount++;
+}
+void printPreviousMoves() {
+	printf("---ALL MOVES MADE---\n");
+	for (int i = 0; i < moveMadeCount; i++) {
+		printf("%d: %c%d to %c%d\n", i+1, numberToFile(moveMadeList[i][0]), numberToRank(moveMadeList[i][0]),
+			numberToFile(moveMadeList[i][1]), numberToRank(moveMadeList[i][1]));
+	}
+}
+
 int negaMax(int ply, int startColor) {
 	int score;
 	int tempScore;
@@ -1296,10 +1313,13 @@ void main() {
 		printAttackTable(ENGINE_DEPTH);
 
 		//TEMPORARY MAKEMOVE BY COMPUTER
+		saveMove(bestMoveList[ENGINE_DEPTH][0],bestMoveList[ENGINE_DEPTH][1]);
+
 		board[bestMoveList[ENGINE_DEPTH][1]] = board[bestMoveList[ENGINE_DEPTH][0]];
 		board[bestMoveList[ENGINE_DEPTH][0]] = EMPTY;
 
 		printBoardSimple(board);
 
 	}
+	printPreviousMoves();
 }
