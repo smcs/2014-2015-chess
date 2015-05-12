@@ -1147,6 +1147,12 @@ void clearAttackTable() {
 		attackTable[i] = false;
 	}
 }
+void clearAttackTable(int ply) {
+	for (int i = 0; i < 120; i++) {
+		attackTableList[ply][i] = false;
+	}
+}
+
 void updateAttackTable(int attackedPosition) {
 	attackTable[attackedPosition] = true;
 }
@@ -1194,7 +1200,8 @@ int negaMax(int ply, int startColor) {
 			return score;
 		else return (-1)*score;
 	}
-
+	
+	clearAttackTable();
 	moveGenerator(tempBoard, startColor);
 	//printCurrentMoveList(ply, 3);
 	//printMoveGen(5);
@@ -1205,6 +1212,7 @@ int negaMax(int ply, int startColor) {
 	}
 	moveCountList[ply] = moveCount;
 
+	clearAttackTable(ply);
 	copyAttackTable(ply);
 	//printAttackTable();
 
