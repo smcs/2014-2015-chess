@@ -1269,7 +1269,7 @@ void main() {
 	while (cnt <= 4) {
 		cnt++;
 
-		//CLEAR DATA
+		//Clear all arrays
 		for (int i = 0; i < moveCount; i++){
 			moveGen[i][INITIAL] = 0;
 			moveGen[i][FINAL] = 0;
@@ -1283,8 +1283,10 @@ void main() {
 			bestMoveList[i][FINAL] = 0;
 		}
 
+		//Mark when the calculation started
 		startTime = timer;
 
+		//Copy the board
 		for (int i = 0; i < 120; i++) {
 			tempBoard[i] = board[i];
 		}
@@ -1295,7 +1297,8 @@ void main() {
 		else {
 			finalMaxScore = negaMax(ENGINE_DEPTH, BLACK);
 		}
-
+		
+		//Print the maximum score
 		printf("Max Score: %d\n", finalMaxScore);
 		/*
 		for (int i = ENGINE_DEPTH; i > 0; i--){
@@ -1305,15 +1308,18 @@ void main() {
 		*/
 		//printf("%d Nondistinct Positions Detected\n", totalMoveCount);
 		time(&timer);
-		printf("Calculation done in %d seconds\n", timer - startTime);
+		printf("Calculation done in %2f seconds\n", timer - startTime);
 		//printAttackTable(ENGINE_DEPTH);
 
-		//TEMPORARY MAKEMOVE BY COMPUTER
-		saveMove(bestMoveList[ENGINE_DEPTH][0],bestMoveList[ENGINE_DEPTH][1]);
-
+		
+		//Make the best move on the board
 		board[bestMoveList[ENGINE_DEPTH][FINAL]] = board[bestMoveList[ENGINE_DEPTH][INITIAL]];
 		board[bestMoveList[ENGINE_DEPTH][INITIAL]] = EMPTY;
+		
+		//Save the move made
+		saveMove(bestMoveList[ENGINE_DEPTH][0], bestMoveList[ENGINE_DEPTH][1]);
 
+		//Print the board after the move was made
 		printBoardSimple(board);
 
 	}
