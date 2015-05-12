@@ -32,14 +32,14 @@ bool blackKingsideRookMoved = false;
 bool blackQueensideRookMoved = false;
 bool enPassantPossible = false; //this is true if the previous move was a two-rank move by pawn
 int enPassantPosition = 0; //this is where the en Passant position currently is
-int whiteAttackPosition[120];
-int blackAttackPosition[120];
+//int whiteAttackPosition[120];
+//int blackAttackPosition[120];
 int finalMaxScore;
 bool attackTable[120];
 bool attackTableList[ENGINE_DEPTH+1][120];
 /*RECURSION GLOBAL VARIABLES*/
 int tempBoard[120]; //board being moved
-int moveMadeList[MAX_PLY][2]; //list of moves made
+int tempMoveMadeList[MAX_PLY][2]; //list of moves made
 int capturedPiece[MAX_PLY]; //list of pieces captured from move
 int moveCountList[MAX_PLY]; //list of number of possible moves
 int moveGenList[MAX_PLY][MAX_MOVES][2]; //list of possible moves
@@ -78,6 +78,7 @@ char numberToFile(int position);
 void clearAttackTable();
 void updateAttackTable(int attackedPosition);
 void copyAttackTable(int ply);
+
 /*CODE*/
 void setupBoard() {
 	
@@ -1107,8 +1108,8 @@ void makeMove( int move[2], int currentPly ) { //move[0]: initial square, move[1
 	tempBoard[move[0]] = EMPTY;
 	
 	//save the move made
-	moveMadeList[currentPly][0] = move[0];
-	moveMadeList[currentPly][1] = move[1];
+	tempMoveMadeList[currentPly][0] = move[0];
+	tempMoveMadeList[currentPly][1] = move[1];
 
 	
 }
@@ -1119,8 +1120,8 @@ void unmakeMove( int currentPly ) {
 	int piece; //the piece to be un-captured
 
 	//get move & piece
-	move[0] = moveMadeList[currentPly][0];
-	move[1] = moveMadeList[currentPly][1];
+	move[0] = tempMoveMadeList[currentPly][0];
+	move[1] = tempMoveMadeList[currentPly][1];
 	piece = capturedPiece[currentPly];
 
 	//unmake move
