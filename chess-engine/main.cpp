@@ -1252,7 +1252,7 @@ void main() {
 	printBoardSimple(board);
 
 	int cnt = 1;
-	while (cnt <= 2) {
+	while (cnt <= 6) {
 		cnt++;
 
 		//CLEAR DATA
