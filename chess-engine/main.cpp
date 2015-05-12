@@ -178,9 +178,9 @@ void printBoard(int board[120]) {
 void moveGenerator(int board[120], int color) {
 	//initialize (not needed)
 	for (int i = 0; i < moveCount; i++) {
-		moveGen[i][0] = 0;
-		moveGen[i][1] = 0;
-		moveGen[i][2] = 0;
+		moveGen[i][INITIAL] = 0;
+		moveGen[i][FINAL] = 0;
+		moveGen[i][MOVETYPE] = 0;
 	}
 	moveCount = 0;
 
@@ -236,13 +236,6 @@ void moveGenerator(int board[120], int color) {
 			break;
 		}
 	}
-
-	//pawn moves
-	//knight moves
-	//rook moves
-	//bishop moves
-	//queen moves
-	//king moves
 }
 void pawnMoves(int board[120], int position, int color) {
 	if (color == WHITE) {
@@ -771,9 +764,9 @@ void setupTestBoard(){
 	for (int i = 0; i < 120; i++) {
 		board[i] = ERROR;
 	}
-	for (int i=2; i<10; i++) {
+	for (int i = 2; i < 10; i++) {
 		for (int j = 1; j < 9; j++) {
-			board[i*10 + j] = EMPTY;
+			board[i * 10 + j] = EMPTY;
 		}
 	}
 
@@ -789,8 +782,9 @@ void setupTestBoard(){
 void printMoveGen(int movePerLine) {
 	printf("-----MOVEGEN-----\n");
 	for (int i = 0; i < moveCount; i++) {
-		printf("%2d: %c%d to %c%d  ", i+1, numberToFile(moveGen[i][0]), numberToRank(moveGen[i][0]), numberToFile(moveGen[i][1]), numberToRank(moveGen[i][1]));
-		if (i % movePerLine == movePerLine-1) {
+		printf("%2d: %c%d to %c%d  ", i + 1, numberToFile(moveGen[i][INITIAL]), numberToRank(moveGen[i][INITIAL]),
+											 numberToFile(moveGen[i][FINAL]), numberToRank(moveGen[i][FINAL]));
+		if (i % movePerLine == movePerLine - 1) {
 			printf("\n");
 		}
 	}
@@ -799,7 +793,8 @@ void printMoveGen(int movePerLine) {
 void printCurrentMoveList(int ply, int movePerLine) {
 	printf("--CURRENT MOVES--\n");
 	for (int i = ENGINE_DEPTH; i > ply; i--) {
-		printf("%c%d to %c%d  ", numberToFile(currentMoveList[i][0]), numberToRank(currentMoveList[i][0]), numberToFile(currentMoveList[i][1]), numberToRank(currentMoveList[i][1]));
+		printf("%c%d to %c%d  ", numberToFile(currentMoveList[i][INITIAL]), numberToRank(currentMoveList[i][INITIAL]), 
+			                     numberToFile(currentMoveList[i][FINAL]), numberToRank(currentMoveList[i][FINAL]));
 		if (i % movePerLine == movePerLine - 1) {
 			printf("\n");
 		}
@@ -888,7 +883,7 @@ void kingCastling(int board[120], int position, int color) {
 }
 void printMoveList() {
 	for (int i = 0; i < moveCount; i++) {
-		printf("%d to %d", moveGen[i][0], moveGen[i][1]);
+		printf("%d to %d", moveGen[i][INITIAL], moveGen[i][FINAL]);
 		printf("\n");
 	}
 }
@@ -1101,19 +1096,20 @@ bool insufficientPieces(int board[120]) { //only when KvK, K+NvK or K+BvK
 	}
 	return true;
 }
-void makeMove( int move[2], int currentPly ) { //move[0]: initial square, move[1]: terminal square
+void makeMove( int move[2], int currentPly ) { 
+	//move[0]: initial square, move[1]: terminal square
 	//printf("MakeMove called - Ply: %d\n", currentPly);
 
 	//save the piece captured (if any piece is captured)
-	capturedPiece[currentPly] = tempBoard[move[1]];
+	capturedPiece[currentPly] = tempBoard[move[FINAL]];
 
 	//makemove
-	tempBoard[move[1]] = tempBoard[move[0]];
-	tempBoard[move[0]] = EMPTY;
+	tempBoard[move[FINAL]] = tempBoard[move[INITIAL]];
+	tempBoard[move[INITIAL]] = EMPTY;
 	
 	//save the move made
-	tempMoveMadeList[currentPly][0] = move[0];
-	tempMoveMadeList[currentPly][1] = move[1];
+	tempMoveMadeList[currentPly][INITIAL] = move[INITIAL];
+	tempMoveMadeList[currentPly][FINAL] = move[FINAL];
 
 	
 }
@@ -1124,23 +1120,23 @@ void unmakeMove( int currentPly ) {
 	int piece; //the piece to be un-captured
 
 	//get move & piece
-	move[0] = tempMoveMadeList[currentPly][0];
-	move[1] = tempMoveMadeList[currentPly][1];
+	move[INITIAL] = tempMoveMadeList[currentPly][INITIAL];
+	move[FINAL] = tempMoveMadeList[currentPly][FINAL];
 	piece = capturedPiece[currentPly];
 
 	//unmake move
-	tempBoard[move[0]] = tempBoard[move[1]];
-	tempBoard[move[1]] = piece;
+	tempBoard[move[INITIAL]] = tempBoard[move[FINAL]];
+	tempBoard[move[FINAL]] = piece;
 
 	
 }
 
 bool currentCheckDetection(int detectColor) {
 	for (int i = 0; i < moveCount; i++) {
-		if (moveGen[i][1] == bK && detectColor == WHITE){
+		if (moveGen[i][FINAL] == bK && detectColor == WHITE){
 			return true;
 		}
-		if (moveGen[i][1] == wK && detectColor == BLACK){
+		if (moveGen[i][FINAL] == wK && detectColor == BLACK){
 			return true;
 		}
 	}
@@ -1194,15 +1190,15 @@ void printAttackTable(int ply) {
 }
 
 void saveMove(int initialPos, int finalPos){
-	moveMadeList[moveMadeCount][0] = initialPos;
-	moveMadeList[moveMadeCount][1] = finalPos;
+	moveMadeList[moveMadeCount][INITIAL] = initialPos;
+	moveMadeList[moveMadeCount][FINAL] = finalPos;
 	moveMadeCount++;
 }
 void printPreviousMoves() {
 	printf("---ALL MOVES MADE---\n");
 	for (int i = 0; i < moveMadeCount; i++) {
-		printf("%d: %c%d to %c%d\n", i+1, numberToFile(moveMadeList[i][0]), numberToRank(moveMadeList[i][0]),
-			numberToFile(moveMadeList[i][1]), numberToRank(moveMadeList[i][1]));
+		printf("%d: %c%d to %c%d\n", i+1, numberToFile(moveMadeList[i][INITIAL]), numberToRank(moveMadeList[i][INITIAL]),
+										  numberToFile(moveMadeList[i][FINAL]), numberToRank(moveMadeList[i][FINAL]));
 	}
 }
 
@@ -1225,8 +1221,8 @@ int negaMax(int ply, int startColor) {
 	//printMoveGen(5);
 
 	for (int i = 0; i < moveCount; i++) {
-		moveGenList[ply][i][0] = moveGen[i][0];
-		moveGenList[ply][i][1] = moveGen[i][1];
+		moveGenList[ply][i][INITIAL] = moveGen[i][INITIAL];
+		moveGenList[ply][i][FINAL] = moveGen[i][FINAL];
 	}
 	moveCountList[ply] = moveCount;
 
@@ -1236,8 +1232,8 @@ int negaMax(int ply, int startColor) {
 
 	for (int i = 0; i < moveCountList[ply]; i++) {
 		makeMove(moveGenList[ply][i], ply);
-		currentMoveList[ply][0] = moveGenList[ply][i][0];
-		currentMoveList[ply][1] = moveGenList[ply][i][1];
+		currentMoveList[ply][INITIAL] = moveGenList[ply][i][INITIAL];
+		currentMoveList[ply][FINAL] = moveGenList[ply][i][FINAL];
 		tempScore = -1*negaMax(ply - 1, !startColor);
 		
 		unmakeMove(ply);
@@ -1249,8 +1245,8 @@ int negaMax(int ply, int startColor) {
 		if (maxScore <= tempScore) { //renew max if the new score is higher & save where the max is
 			maxScore = tempScore;
 			//TODO: indexing moves
-			bestMoveList[ply][0] = moveGenList[ply][i][0];
-			bestMoveList[ply][1] = moveGenList[ply][i][1];
+			bestMoveList[ply][INITIAL] = moveGenList[ply][i][INITIAL];
+			bestMoveList[ply][FINAL] = moveGenList[ply][i][FINAL];
 		}		
 	}
 
@@ -1270,21 +1266,21 @@ void main() {
 	printBoardSimple(board);
 
 	int cnt = 1;
-	while (cnt <= 6) {
+	while (cnt <= 4) {
 		cnt++;
 
 		//CLEAR DATA
 		for (int i = 0; i < moveCount; i++){
-			moveGen[i][0] = 0;
-			moveGen[i][1] = 0;
+			moveGen[i][INITIAL] = 0;
+			moveGen[i][FINAL] = 0;
 			for (int j = ENGINE_DEPTH; j > 0; j--) {
-				moveGenList[j][i][0] = 0;
-				moveGenList[j][i][1] = 0;
+				moveGenList[j][i][INITIAL] = 0;
+				moveGenList[j][i][FINAL] = 0;
 			}
 		}
 		for (int i = ENGINE_DEPTH; i > 0; i--) {
-			bestMoveList[i][0] = 0;
-			bestMoveList[i][1] = 0;
+			bestMoveList[i][INITIAL] = 0;
+			bestMoveList[i][FINAL] = 0;
 		}
 
 		startTime = timer;
@@ -1310,13 +1306,13 @@ void main() {
 		//printf("%d Nondistinct Positions Detected\n", totalMoveCount);
 		time(&timer);
 		printf("Calculation done in %d seconds\n", timer - startTime);
-		printAttackTable(ENGINE_DEPTH);
+		//printAttackTable(ENGINE_DEPTH);
 
 		//TEMPORARY MAKEMOVE BY COMPUTER
 		saveMove(bestMoveList[ENGINE_DEPTH][0],bestMoveList[ENGINE_DEPTH][1]);
 
-		board[bestMoveList[ENGINE_DEPTH][1]] = board[bestMoveList[ENGINE_DEPTH][0]];
-		board[bestMoveList[ENGINE_DEPTH][0]] = EMPTY;
+		board[bestMoveList[ENGINE_DEPTH][FINAL]] = board[bestMoveList[ENGINE_DEPTH][INITIAL]];
+		board[bestMoveList[ENGINE_DEPTH][INITIAL]] = EMPTY;
 
 		printBoardSimple(board);
 

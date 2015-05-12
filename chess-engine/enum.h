@@ -40,3 +40,9 @@ enum specialMoveType {
 	ENPASSANT,
 	NOATTACK
 };
+
+enum array {
+	INITIAL,
+	FINAL,
+	MOVETYPE
+};
