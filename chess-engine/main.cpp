@@ -258,7 +258,6 @@ void pawnMoves(int board[120], int position, int color) {
 				addMove(position, enPassantPosition - 10, ENPASSANT);
 			}
 		}
-
 	}
 	else if (color == BLACK) {
 		if (A7 <= position && position <= H7 && board[position + 20] == EMPTY && board[position + 10] == EMPTY) { //if it did not move yet
@@ -1201,6 +1200,19 @@ void printPreviousMoves() {
 										  numberToFile(moveMadeList[i][FINAL]), numberToRank(moveMadeList[i][FINAL]));
 	}
 }
+
+void directCheckDetection(int board[120], int position) {
+	//Search if the last move directly checks the king
+	switch (board[position]) {
+
+	}
+}
+void discoveredCheckDetection(int board[120]) {
+	//Search if the last move that moves away from a ray (rook, bishop, queen) and therefore creates a discovered check
+
+
+}
+
 
 int negaMax(int ply, int startColor) {
 	int score;
