@@ -4,6 +4,7 @@
 #define MAX_PLY 10
 #define ENGINE_DEPTH 4
 #define MAX_MATCH_LENGTH 500
+#define TURN_COUNT 10
 
 #define PAWN_VALUE 100
 #define KNIGHT_VALUE 300
@@ -1278,7 +1279,7 @@ void main() {
 	printBoardSimple(board);
 
 	int cnt = 1;
-	while (cnt <= 4) {
+	while (cnt <= TURN_COUNT) {
 		cnt++;
 
 		//Clear all arrays
@@ -1320,7 +1321,7 @@ void main() {
 		*/
 		//printf("%d Nondistinct Positions Detected\n", totalMoveCount);
 		time(&timer);
-		printf("Calculation done in %2f seconds\n", timer - startTime);
+		printf("Calculation done in %2d seconds\n", timer - startTime);
 		//printAttackTable(ENGINE_DEPTH);
 
 		
