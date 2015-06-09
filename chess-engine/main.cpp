@@ -42,6 +42,9 @@ bool attackTableList[ENGINE_DEPTH+1][120];
 
 int moveMadeList[MAX_MATCH_LENGTH][2];
 int moveMadeCount=0;
+
+int fiftyMovesCount=0;
+
 /*RECURSION GLOBAL VARIABLES*/
 int tempBoard[120]; //board being moved
 int tempMoveMadeList[MAX_PLY][2]; //list of moves made
@@ -1214,6 +1217,10 @@ void discoveredCheckDetection(int board[120]) {
 
 }
 
+void resetFifty() {
+	fiftyMovesCount = 0;
+}
+
 
 int negaMax(int ply, int startColor) {
 	int score;
@@ -1326,6 +1333,12 @@ void main() {
 
 		
 		//Make the best move on the board
+		if (bestMoveList[ENGINE_DEPTH][FINAL] != EMPTY) { // if the chess piece's terminal square is occupied, then a capture has occured
+			resetFifty(); //reset fifty move rule count
+		}
+		if (bestMoveList[ENGINE_DEPTH][INITIAL] == wP && bestMoveList[ENGINE_DEPTH][INITIAL] == bP) { // if the chess piece is a pawn
+			resetFifty(); //reset fifty move rule count
+		}
 		board[bestMoveList[ENGINE_DEPTH][FINAL]] = board[bestMoveList[ENGINE_DEPTH][INITIAL]];
 		board[bestMoveList[ENGINE_DEPTH][INITIAL]] = EMPTY;
 		
